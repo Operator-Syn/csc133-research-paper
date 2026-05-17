@@ -1,4 +1,4 @@
-# 🛸 XQubit Project
+# Monte Carlo Simulation of Noise-Resilient Variational Quantum Classifiers for Intent Classification
 
 This repository is optimized for **Jupyter Notebook** research with a focus on clean version control and metadata management. All collaborators **must** follow the setup instructions below to ensure repository integrity.
 
@@ -21,9 +21,9 @@ Ensure you have the following installed on your system:
 Clone the repository and install the required dependencies (including development tools).
 
 ```bash
-git clone https://github.com/Operator-Syn/xqubit-project.git && \
-cd xqubit-project && \
-pipenv install --dev
+git clone https://github.com/Operator-Syn/csc133-research-paper.git && \
+cd csc133-research-paper && \
+pipenv install --dev -v
 ```
 
 ### 2. Configure Environment Variables
@@ -147,7 +147,7 @@ Because `.ipynb` files are JSON, standard Git tools often struggle with them. We
 
 > **XQubit Project** — Jupyter Notebook research with clean version control and metadata management.
 
-Copyright (C) 2026 **Operator-Syn**, **[Collaborator 1]**, **[Collaborator 2]**
+Copyright (C) 2026 **Operator-Syn**
 
 This program is free software: you can redistribute it and/or modify it under the terms of the **GNU General Public License** as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

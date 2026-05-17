@@ -1,3 +1,51 @@
+# ─────────────────────────────────────────
+#  Core LaTeX Auxiliary Files
+#  Generated on every build — never commit these
+# ─────────────────────────────────────────
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.atfi
+
+# ─────────────────────────────────────────
+#  Extended LaTeX Artifacts
+#  Less common but worth covering as docs grow
+# ─────────────────────────────────────────
+*.fdb_latexmk
+*.fls
+*.dvi           # device-independent output (older toolchains)
+*.xdv           # XeLaTeX intermediate
+*.nav           # beamer navigation
+*.snm           # beamer slide names
+*.vrb           # beamer verbatim
+*.lof           # list of figures
+*.lot           # list of tables
+*.idx           # raw index
+*.ind           # formatted index
+*.ilg           # index log
+
+# ─────────────────────────────────────────
+#  Bibliography & Indexing
+#  Ready for when your docs get citations
+# ─────────────────────────────────────────
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# ─────────────────────────────────────────
+#  Inkscape / SVG Export Artifacts
+# ─────────────────────────────────────────
+**/svg-inkscape/
+
+# ─────────────────────────────────────────
+#  Output PDFs
+#  Keeps the repo lightweight; re-generate with run.py
+# ─────────────────────────────────────────
+*.pdf
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
