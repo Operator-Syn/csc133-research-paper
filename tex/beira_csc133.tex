@@ -1,0 +1,204 @@
+\documentclass[conference]{IEEEtran}
+
+% -------------------------------------------------------
+% Packages
+% -------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{newtxtext, newtxmath}
+\usepackage[none]{hyphenat}
+
+% -------------------------------------------------------
+% Title
+% -------------------------------------------------------
+\title{Monte Carlo Simulation of Noise-Resilient Variational Quantum Classifiers for Intent Classification}
+
+% -------------------------------------------------------
+% Author block
+% -------------------------------------------------------
+\author{
+  \IEEEauthorblockN{John-Ronan S. Beira\textsuperscript{1 a *}}
+  \IEEEauthorblockA{
+    \textsuperscript{1}Bongao Alliance Church, Datu Halun Street, Bongao, Tawi-Tawi, Philippines\\
+    \href{mailto:john-ronan.beira@g.msuiit.edu.ph}{\textsuperscript{a} john-ronan.beira@g.msuiit.edu.ph} / 
+    \href{mailto:johnronanbeira100404@gmail.com}{johnronanbeira100404@gmail.com}
+  }
+}
+
+% -------------------------------------------------------
+% Abstract
+% -------------------------------------------------------
+\def\myabstract{%
+  \mdseries
+This study presents a Monte Carlo simulation framework to evaluate the
+performance of a \textbf{2-qubit Variational Quantum Classifier (VQC)} for binary
+intent classification under Noisy Intermediate-Scale Quantum (NISQ)
+conditions. Using a focused subset of the 
+\href{https://huggingface.co/datasets/tanaos/synthetic-intent-classifier-dataset-v1}{\textbf{Tanaos synthetic intent classifier v1}} dataset, 
+the task is restricted to \textbf{``Greeting''} and \textbf{``Farewell''} categories to
+suit the 2-qubit architecture. Text utterances are vectorized via TF-IDF and
+reduced to a 2-dimensional feature space using Principal Component Analysis (PCA). 
+The model architecture utilizes a ZZFeatureMap for quantum state
+encoding and a RealAmplitudes variational circuit with six trainable
+parameters. To combat hardware imperfections, we integrate \textbf{Zero Noise Extrapolation (ZNE)} 
+as an error mitigation strategy. We systematically evaluate the pipeline by varying 
+depolarizing noise levels (0--10\%), measurement shot counts (100--10{,}000), and circuit 
+repetitions. Through 1{,}000 independent Monte Carlo trials per configuration, this 
+research reports the mean accuracy and statistical variance, demonstrating the efficacy 
+of ZNE in establishing a noise-resilient reliability baseline for near-term quantum NLU 
+tasks compared against a classical linear baseline.
+}
+
+% -------------------------------------------------------
+% Keywords
+% -------------------------------------------------------
+\def\mykeywords{%
+  \mdseries
+  Variational Quantum Classifier (VQC), Monte Carlo Simulation,
+  Noisy Intermediate-Scale Quantum (NISQ), Intent Classification (IC),
+  Machine Learning, Quantum Machine Learning (QML), Quantum Noise,
+  Tanaos Dataset%
+}
+
+% -------------------------------------------------------
+% Bibliography
+% -------------------------------------------------------
+\def\bibPhukan{%
+  A. Phukan and A. Ekbal,
+  ``A survey of Quantum Natural Language Processing: From Compositional models to NISQ-Era Empiricism,''
+  in \textit{Proc. QuantumNLP: Integrating Quantum Computing With Natural Language Processing},
+  pp. 65--75, Mumbai, India, 2025.
+  Association for Computational Linguistics.
+  \url{https://doi.org/10.18653/v1/2025.quantumnlp-1.9}%
+}
+
+\def\bibZhu{%
+  L. Zhu, Y. Dong, Z. Zhang, and X. Li,
+  ``Rethinking Quantum Noise in Quantum Machine Learning: When Noise Improves Learning,''
+  \textit{arXiv (Cornell University)}, 2026.
+  \url{https://doi.org/10.48550/arxiv.2601.13275}%
+}
+
+\def\bibLung{%
+  R. I. Lung and F. S. Duma,
+  ``A Noisy Optimization Mechanism for Variational Quantum Classifiers,''
+  \textit{Knowledge-Based Systems}, vol. 340, p. 115659, 2026.
+  \url{https://doi.org/10.1016/j.knosys.2026.115659}%
+}
+
+\def\bibXhelollari{%
+  F. Xhelollari, T. Li, and J. Chen,
+  ``Robust Hybrid Quantum-Classical Latent Diffusion Models via Quantum Noise,''
+  \textit{OpenReview}.
+  \url{https://openreview.net/forum?id=NqTeVoz36v}%
+}
+
+\def\bibCincio{%
+  L. Cincio, K. Rudinger, M. Sarovar, and P. J. Coles,
+  ``Machine Learning of Noise-Resilient Quantum Circuits,''
+  \textit{PRX Quantum}, vol. 2, no. 1, 2021.
+  \url{https://doi.org/10.1103/prxquantum.2.010324}%
+}
+
+\def\bibHiggs{%
+  ``Impact of Circuit Depth versus Qubit Count on Variational Quantum Classifiers for Higgs Boson Signal Detection,''
+  \textit{arXiv}, n.d.
+  \url{https://arxiv.org/html/2601.11937v1}%
+}
+
+\def\bibSeilkhan{%
+  M. Seilkhan and A. Taizhanov,
+  ``Comparing Classical and Quantum Variational Classifiers on the XOR Problem,''
+  \textit{Open MIND}, 2026.
+  \url{https://doi.org/10.48550/arxiv.2602.24220}%
+}
+
+
+% -------------------------------------------------------
+% Document
+% -------------------------------------------------------
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  \myabstract
+\end{abstract}
+
+\begin{IEEEkeywords}
+  \mykeywords
+\end{IEEEkeywords}
+
+% -------------------------------------------------------
+% Section I: Introduction
+% -------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+As the field of Natural Language Processing (NLP) explores the
+potential of quantum-enhanced machine learning,
+a primary bottleneck remains the susceptibility of Noisy Intermediate-Scale Quantum (NISQ) 
+devices to environmental decoherence and gate errors. \cite{b_phukan2025}.
+This research employs Monte Carlo simulations to analyze the impact of increasing noise and
+variable measurement precision on classification accuracy within a constrained quantum circuit.
+
+NISQ-era quantum computers are constrained by two primary technical limitations: 
+the rapid onset of environmental decoherence and high gate error rates, 
+which typically range from 0.1\% to 1\%. 
+Unlike classical systems, quantum noise compounds dynamically with every physical operation,
+causing the fidelity of the overall quantum state to decay as circuit depth and gate counts scale. 
+This operational decay frequently restricts reliable computation to shallow architectures of fewer than 100 layers \cite{b_zhu2026}.
+Without error mitigation, current hardware cannot scale beyond these architectural limits.
+
+Optimizing high-dimensional Natural Language Understanding (NLU) models often
+introduces the additional challenge of the 'barren plateau' phenomenon. 
+Here, cost function gradients vanish exponentially as 
+the qubit count scales, amplifying the underlying hardware instability \cite{b_phukan2025}. 
+These plateaus effectively trap optimizers in suboptimal search regions, often leading to premature 
+convergence and poor classification performance \cite{b_lung2026}
+
+Analyses of quantum noise dynamics reveal that controlled stochasticity acts as an
+implicit regularizer by inducing an exponential contraction of the model’s Lipschitz constant 
+and a shrinkage of the Quantum Fisher Information Matrix (QFIM) \cite{b_zhu2026} \cite{b_xhelollari}.
+These mechanisms yield flatter minima in the loss landscape, which have been shown to yield tighter
+Probably Approximately Correct (PAC)-Bayesian generalization bounds \cite{b_xhelollari}.
+However, this benefit operates within a precarious 'regularization vs. trainability trade-off' \cite{b_zhu2026} \cite{b_cincio2021}.
+Beyond a critical tipping point, the same state-space contraction triggers noise-induced barren plateaus (NIBPs), 
+where gradients vanish exponentially and stochastic fluctuations transition 
+from beneficial explorers to destructive forces \cite{b_xhelollari} \cite{b_higgs}.
+
+The utility of the noise depends strictly on model initialization: it assists under-optimized models 
+but disrupts well-converged ones, establishing a negative correlation with baseline performance \cite{b_zhu2026}.
+A system-wide reliability boundary provides a framework to evaluate where hardware-induced 
+decoherence begins to overwhelm predictive utility. This shift typically manifests as noise 
+introduces granularity and local irregularities into the continuous decision function. \cite{b_seilkhan2026}
+
+A Monte Carlo simulation framework serves to isolate the transition between beneficial regularization and 
+catastrophic decoherence. This proposed pipeline evaluates 1,000 independent trials for each discrete 
+configuration of depolarizing noise (1–10\%) and measurement shot counts.
+
+High-volume sampling is utilized here to quantitatively capture the statistical variance introduced by hardware-induced fluctuations 
+and finite-shot sampling noise, both of which risk distorting gradient estimates and model outputs \cite{{b_seilkhan2026}}.
+
+% -------------------------------------------------------
+% Section II: Related Literature
+% -------------------------------------------------------
+\section{Related Literature}
+\label{sec:related_literature}
+
+
+\begin{thebibliography}{00}
+  \bibitem{b_phukan2025}\bibPhukan
+  \bibitem{b_zhu2026}\bibZhu
+  \bibitem{b_lung2026}\bibLung
+  \bibitem{b_xhelollari}\bibXhelollari
+  \bibitem{b_cincio2021}\bibCincio
+  \bibitem{b_higgs}\bibHiggs
+  \bibitem{b_seilkhan2026}\bibSeilkhan
+\end{thebibliography}
+
+\end{document}
