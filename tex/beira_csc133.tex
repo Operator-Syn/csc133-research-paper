@@ -16,7 +16,7 @@
 % -------------------------------------------------------
 % Title
 % -------------------------------------------------------
-\title{Monte Carlo Simulation of Noise-Resilient Variational Quantum Classifiers for Intent Classification}
+\title{Monte Carlo Simulation of Noise-Resilient Two-Qubit Variational Quantum Classifiers with Zero-Noise Extrapolation for Intent Classification}
 
 % -------------------------------------------------------
 % Author block
@@ -48,10 +48,9 @@ encoding and a RealAmplitudes variational circuit with six trainable
 parameters. To combat hardware imperfections, we integrate \textbf{Zero Noise Extrapolation (ZNE)} 
 as an error mitigation strategy. We systematically evaluate the pipeline by varying 
 depolarizing noise levels (0--10\%), measurement shot counts (100--10{,}000), and circuit 
-repetitions. Through 1{,}000 independent Monte Carlo trials per configuration, this 
-research reports the mean accuracy and statistical variance, demonstrating the efficacy 
-of ZNE in establishing a noise-resilient reliability baseline for near-term quantum NLU 
-tasks compared against a classical linear baseline.
+repetitions. Through 1,000 independent Monte Carlo trials per configuration, we report mean accuracy 
+and statistical variance, showing that ZNE establishes a noise-resilient reliability baseline for 
+near-term quantum NLU tasks.
 }
 
 % -------------------------------------------------------
@@ -118,6 +117,159 @@ tasks compared against a classical linear baseline.
   \url{https://doi.org/10.48550/arxiv.2602.24220}%
 }
 
+\def\bibZengCoecke{%
+  W. Zeng and B. Coecke,
+  ``Quantum Algorithms for Compositional Natural Language Processing,''
+  \textit{Electronic Proceedings in Theoretical Computer Science}, vol. 221, pp. 67--75, 2016.
+  \url{https://doi.org/10.4204/eptcs.221.8}%
+}
+
+\def\bibPal{%
+  S. Pal, P. Pakray, P. Jain, A. Ekbal, and S. Bandyopadhyay,
+  ``Proceedings of the QuantumNLP: Integrating Quantum Computing with Natural Language Processing,''
+  \textit{Proceedings of the QuantumNLP: Integrating Quantum Computing With Natural Language Processing}, 2025.
+  \url{https://doi.org/10.18653/v1/2025.quantumnlp-1.0}%
+}
+
+\def\bibCoecke{%
+  B. Coecke, D. F. Giovanni, K. Meichanetzidis, and A. Toumi,
+  ``Foundations for Near-Term Quantum Natural Language Processing,''
+  \textit{arXiv (Cornell University)}, 2020.
+  \url{https://doi.org/10.48550/arxiv.2012.03755}%
+}
+
+\def\bibKrawchuk{%
+  C. Krawchuk, N. Khatri, N. J. Ortega, and D. Kartsaklis,
+  ``Efficient Generation of Parameterised Quantum Circuits from Large Texts,''
+  \textit{arXiv}, 2025.
+  \url{https://doi.org/10.48550/arxiv.2505.13208}%
+}
+
+\def\bibYeung{%
+  R. Yeung and D. Kartsaklis,
+  ``A CCG-Based Version of the DisCoCat Framework,''
+  \textit{arXiv (Cornell University)}, 2021.
+  \url{https://doi.org/10.48550/arxiv.2105.07720}%
+}
+
+\def\bibCoeckeSadrzadeh{%
+  B. Coecke, M. Sadrzadeh, and S. Clark,
+  ``Mathematical Foundations for a Compositional Distributional Model of Meaning,''
+  \textit{arXiv (Cornell University)}, vol. 36, no. 1, pp. 345--384, 2010.
+  \url{https://doi.org/10.48550/arxiv.1003.4394}%
+}
+
+\def\bibMurauer{%
+  J. Murauer,
+  ``Analyzing Word Predictions by Quantum Natural Language Processing,''
+  Master's thesis, Ludwig-Maximilians-Universit\"{a}t M\"{u}nchen, 2023.%
+  \url{https://bib.nm.ifi.lmu.de/pdf/mura23.pdf}
+}
+
+\def\bibKhatri{%
+  N. Khatri,
+  ``Experimental Comparison of Ans\"{a}tze for Quantum Natural Language Processing,''
+  Master's thesis, University of Oxford, 2022.
+  \url{https://www.cs.ox.ac.uk/people/aleks.kissinger/theses/khatri-thesis.pdf}%
+}
+
+\def\bibToumi{%
+  A. Toumi and G. De Felice,
+  ``Higher-Order DisCoCat (Peirce-Lambek-Montague Semantics),''
+  \textit{Electronic Proceedings in Theoretical Computer Science}, vol. 429, pp. 130--145, 2025.
+  \url{https://doi.org/10.4204/eptcs.429.7}%
+}
+
+\def\bibLorenz{%
+  R. Lorenz, A. Pearson, K. Meichanetzidis, D. Kartsaklis, and B. Coecke,
+  ``QNLP in Practice: Running Compositional Models of Meaning on a Quantum Computer,''
+  \textit{Journal of Artificial Intelligence Research}, vol. 76, pp. 1305--1342, 2023.
+  \url{https://doi.org/10.1613/jair.1.14329}%
+}
+
+\def\bibGuarasci{%
+  R. Guarasci, G. De Pietro, and M. Esposito,
+  ``Quantum Natural Language Processing: Challenges and Opportunities,''
+  \textit{Applied Sciences}, vol. 12, no. 11, p. 5651, 2022.
+  \url{https://doi.org/10.3390/app12115651}%
+}
+
+\def\bibYi{%
+  H. Yi, K. Ban, M. Park, and K. Kong,
+  ``Quantum Integration Networks for Efficient Monte Carlo in High-Energy Physics,''
+  \textit{arXiv (Cornell University)}, 2025.
+  \url{https://doi.org/10.48550/arxiv.2510.10501}%
+}
+
+\def\bibWang{%
+  S. Wang, P. Czarnik, A. Arrasmith, M. Cerezo, L. Cincio, and P. J. Coles,
+  ``Can Error Mitigation Improve Trainability of Noisy Variational Quantum Algorithms?''
+  \textit{arXiv (Cornell University)}, 2021.
+  \url{https://doi.org/10.48550/arxiv.2109.01051}%
+}
+
+\def\bibChu{%
+  C. Chu, Q. Lou, F. Chen, and L. Jiang,
+  ``QNBAD: Quantum Noise-induced Backdoor Attacks against Zero Noise Extrapolation,''
+  \textit{Proceedings of the Network and Distributed System Security (NDSS) Symposium}, 2026.
+  \url{https://dx.doi.org/10.14722/ndss.2026.241665}%
+}
+
+\def\bibNjiki{%
+  J. R. M. Njiki, N. Innan, A. Marchisio, M. Kashif, J. Dricot, and M. Shafique,
+  ``Robustness Evaluation of Hybrid Quantum Neural Networks under Noise Models via System-Level Error Mitigation,''
+  \textit{arXiv (Cornell University)}, 2026.
+  \url{https://doi.org/10.48550/arxiv.2604.17515}%
+}
+
+\def\bibRusso{%
+  V. Russo,
+  ``ZNE Technique Details,''
+  \textit{The QEM Zoo}.
+  \url{https://qemzoo.com/technique.html?id=zne}%
+}
+
+\def\bibSayapin{%
+  Z. Sayapin, D. Rabinovich, N. Korolev, and K. Lakhmanskiy,
+  ``Zero-Noise Extrapolation via Cyclic Permutations of Quantum Circuit Layouts,''
+  \textit{arXiv (Cornell University)}, 2025.
+  \url{https://doi.org/10.48550/arxiv.2511.02901}%
+}
+
+\def\bibPennyLaneZNE{%
+  Xanadu,
+  ``catalyst.mitigate\_with\_zne --- Catalyst Documentation,''
+  \textit{PennyLane Documentation}, n.d.
+  \url{https://docs.pennylane.ai/projects/catalyst/en/stable/code/api/catalyst.mitigate_with_zne.html}%
+}
+
+\def\bibKoenig{%
+  K. F. Koenig, F. Reinecke, W. Hahn, and T. Wellens,
+  ``Inverted-Circuit Zero-Noise Extrapolation for Quantum-Gate Error Mitigation,''
+  \textit{Physical Review A}, vol. 110, no. 4, 2024.
+  \url{https://doi.org/10.1103/PhysRevA.110.042625}%
+}
+
+\def\bibIBMErrorMitigation{%
+  IBM Quantum,
+  ``Error mitigation and suppression techniques,''
+  \textit{IBM Quantum Documentation}.
+  \url{https://quantum.cloud.ibm.com/docs/en/guides/error-mitigation-and-suppression-techniques}%
+}
+
+\def\bibLiu{%
+  J. Liu and X. Wang,
+  ``Accelerating Noisy Variational Quantum Algorithms with Physics-Informed Denoising Networks,''
+  \textit{arXiv (Cornell University)}, 2026.
+  \url{https://doi.org/10.48550/arxiv.2605.02066}%
+}
+
+\def\bibMohammadipour{%
+  P. Mohammadipour and X. Li,
+  ``Direct Analysis of Zero-Noise Extrapolation: Polynomial Methods, Error Bounds, and Simultaneous Physical-Algorithmic Error Mitigation,''
+  \textit{Quantum}, vol. 9, p. 1909, 2025.
+  \url{https://doi.org/10.22331/q-2025-11-14-1909}%
+}
 
 % -------------------------------------------------------
 % Document
@@ -139,50 +291,50 @@ tasks compared against a classical linear baseline.
 % -------------------------------------------------------
 \section{Introduction}
 \label{sec:introduction}
-As the field of Natural Language Processing (NLP) explores the
-potential of quantum-enhanced machine learning,
-a primary bottleneck remains the susceptibility of Noisy Intermediate-Scale Quantum (NISQ) 
-devices to environmental decoherence and gate errors. \cite{b_phukan2025}.
-This research employs Monte Carlo simulations to analyze the impact of increasing noise and
-variable measurement precision on classification accuracy within a constrained quantum circuit.
+Research in Natural Language Processing (NLP) increasingly incorporates quantum-enhanced machine learning methods. 
+However, current Noisy Intermediate-Scale Quantum (NISQ) devices remain highly sensitive to 
+decoherence and gate errors, this noise, limits their reliability. \cite{b_phukan2025}.
+% Monte Carlo simulations were conducted to observe how increasing noise and changes in measurement precision impact 
+% classification accuracy in a constrained quantum circuit.
 
-NISQ-era quantum computers are constrained by two primary technical limitations: 
-the rapid onset of environmental decoherence and high gate error rates, 
-which typically range from 0.1\% to 1\%. 
-Unlike classical systems, quantum noise compounds dynamically with every physical operation,
-causing the fidelity of the overall quantum state to decay as circuit depth and gate counts scale. 
-This operational decay frequently restricts reliable computation to shallow architectures of fewer than 100 layers \cite{b_zhu2026}.
-Without error mitigation, current hardware cannot scale beyond these architectural limits.
+NISQ-era quantum computers face two main technical challenges: the rapid environmental decoherence 
+and the gate error rates, which depending on the specific hardware platform and experimental setup;
+are often reported in the 0.1\% to 1\% ranges. 
+Compared to classical computer systems, quantum noise compounds dynamically with every physical operation, this
+causes the fidelity of the overall quantum state to decay as circuit depth and quantum gate counts scale. 
+This operational decay often restricts reliable computation to shallow architectures of no more than 100 layers \cite{b_zhu2026}.
+Without error mitigation strategies, scaling current hardware beyond architectural limits remains constrained.
 
 Optimizing high-dimensional Natural Language Understanding (NLU) models often
 introduces the additional challenge of the 'barren plateau' phenomenon. 
-Here, cost function gradients vanish exponentially as 
-the qubit count scales, amplifying the underlying hardware instability \cite{b_phukan2025}. 
+The barren plateau phenomenon is where cost function gradients vanish exponentially as 
+the qubit count scales; this amplifies the hardware instability \cite{b_phukan2025}. 
 These plateaus effectively trap optimizers in suboptimal search regions, often leading to premature 
-convergence and poor classification performance \cite{b_lung2026}
+convergence and poor classification performance of Machine Learning Systems \cite{b_lung2026}
 
-Analyses of quantum noise dynamics reveal that controlled stochasticity acts as an
-implicit regularizer by inducing an exponential contraction of the model’s Lipschitz constant 
-and a shrinkage of the Quantum Fisher Information Matrix (QFIM) \cite{b_zhu2026} \cite{b_xhelollari}.
-These mechanisms yield flatter minima in the loss landscape, which have been shown to yield tighter
+Previous analyses of quantum noise dynamics have shown that controlled stochastic 
+effects can behave like a regularizer, leading to reductions in both the model’s Lipschitz 
+constant and the Quantum Fisher Information Matrix (QFIM). \cite{b_zhu2026}.
+These mechanisms bring flatter minima in the loss landscape, which have been shown to yield tighter
 Probably Approximately Correct (PAC)-Bayesian generalization bounds \cite{b_xhelollari}.
-However, this benefit operates within a precarious 'regularization vs. trainability trade-off' \cite{b_zhu2026} \cite{b_cincio2021}.
-Beyond a critical tipping point, the same state-space contraction triggers noise-induced barren plateaus (NIBPs), 
-where gradients vanish exponentially and stochastic fluctuations transition 
-from beneficial explorers to destructive forces \cite{b_xhelollari} \cite{b_higgs}.
 
-The utility of the noise depends strictly on model initialization: it assists under-optimized models 
-but disrupts well-converged ones, establishing a negative correlation with baseline performance \cite{b_zhu2026}.
-A system-wide reliability boundary provides a framework to evaluate where hardware-induced 
-decoherence begins to overwhelm predictive utility. This shift typically manifests as noise 
-introduces granularity and local irregularities into the continuous decision function. \cite{b_seilkhan2026}
+However, this benefit introduces a critical tension between regularizing the model and maintaining its trainability.\cite{b_zhu2026, b_cincio2021}.
+If pushed beyond a critical threshold, this state-space contraction triggers noise-induced barren plateaus (NIBPs), 
+where gradients vanish exponentially and beneficial stochastic fluctuations become disruptive instead of
+aiding optimization \cite{b_xhelollari, b_higgs}.How the model responds to the noise depends 
+strictly on initialization: it assists under-optimized models 
+but disrupts well-converged ones, establishing a negative correlation with baseline performance. \cite{b_zhu2026}.
 
-A Monte Carlo simulation framework serves to isolate the transition between beneficial regularization and 
-catastrophic decoherence. This proposed pipeline evaluates 1,000 independent trials for each discrete 
-configuration of depolarizing noise (1–10\%) and measurement shot counts.
+A Monte Carlo simulation framework isolates the transition between beneficial regularization 
+and catastrophic decoherence. The pipeline evaluates 1,000 independent trials for each discrete 
+configuration of depolarizing noise (1–10\%) and measurement shot counts. 
+The high-volume sampling extracts the statistical variance introduced by hardware fluctuations 
+and finite-shot sampling noise, both of which actively degrade gradient estimation and model output.
 
-High-volume sampling is utilized here to quantitatively capture the statistical variance introduced by hardware-induced fluctuations 
-and finite-shot sampling noise, both of which risk distorting gradient estimates and model outputs \cite{{b_seilkhan2026}}.
+
+% A system-wide reliability boundary provides a framework to evaluate where hardware-induced 
+% decoherence begins to overwhelm predictive utility. This shift typically manifests as noise 
+% introduces granularity and local irregularities into the continuous decision function. \cite{b_seilkhan2026}
 
 % -------------------------------------------------------
 % Section II: Related Literature
@@ -190,15 +342,181 @@ and finite-shot sampling noise, both of which risk distorting gradient estimates
 \section{Related Literature}
 \label{sec:related_literature}
 
+\subsection{The Convergence of Quantum Computing and NLP}
+
+The convergence of quantum computing and Natural Language Processing (NLP) represents a fundamental paradigm shift 
+from purely statistical, associative methods to structure-preserving, 
+categorical representations of meaning \cite{b_phukan2025, b_pal2025}.
+This section focuses on the theoretical foundations of this convergence, 
+specifically the "Quantum Native" hypothesis and the principle of compositionality.
+
+\subsubsection{The "Quantum Native" Hypothesis}
+
+The foundational motivation for Quantum Natural Language Processing (QNLP) is the proposition that 
+human language is "quantum native" \cite{b_phukan2025, b_pal2025, b_coecke2020}.
+The 'Quantum Native' hypothesis suggests that natural language fits naturally into quantum 
+computers because the mathematical structures of grammar match those of quantum mechanics. 
+Both frameworks use vector spaces to represent individual elements and tensor products to 
+calculate how these elements interact.
+
+This shared mathematical framework allows for a direct and systematic translation of a sentence’s 
+grammatical string diagram into a quantum circuit, where words act as quantum states and 
+grammatical dependencies are represented as entangling operations \cite{b_pal2025, b_coecke2020}.
+Because language and quantum mechanics share this underlying categorical logic, quantum computers
+are viewed as the "native hardware" for executing linguistic models.
+
+A key advantage of this approach in the current Noisy Intermediate-Scale Quantum (NISQ) era is 
+that linguistic structure is essentially provided as a "free lunch," meaning that the grammatical rules of 
+a sentence are encoded as the hardware's physical configuration rather than being learned from data \cite{b_coecke2020}.
+While classical systems view the encoding of complex grammar as exponentially expensive, the variational 
+quantum circuit paradigm allows syntactic structure to be provided for "free" by defining the quantum circuit skeleton 
+before training begins \cite{b_phukan2025, b_coecke2020}.
+
+In classical models, such as Large Language Models (LLMs), grammatical rules must be learned from scratch through 
+massive parameter budgets, often resulting in "black box" systems whose internal reasoning is opaque and lacks structural 
+interpretability \cite{b_phukan2025, b_krawchuk2025}.
+
+To expound on this empirical evidence, the QSANN 
+(Quantum Self-Attention Neural Network) model serves as a primary 
+example of this efficiency, particularly in text classification tasks.
+On sentiment classification benchmarks using real-world data like the Yelp dataset, 
+the QSANN was shown to outperform comparable classical self-attention baselines while using only 
+49 quantum parameters against the 785 classical parameters required by the classical model—a reduction of >90\% \cite{b_phukan2025}.
+
+This drastic reduction is rooted in the exponential representational capacity of quantum systems. 
+Theoretically, an $n$-qubit system can represent $2^{n}$ states in parallel, allowing quantum 
+models to inhabit high-dimensional Hilbert spaces that are exponentially larger 
+than the latent spaces accessible to classical models of equivalent size. \cite{b_zengcoecke2016, b_pal2025}
+
+\subsection{Compositionality and the DisCoCat Framework}
+The theoretical cornerstone of modern Quantum Natural Language 
+Processing (QNLP) is the Distributional Compositional Categorical (DisCoCat) framework \cite{b_yeung2021}. 
+This model provides a mathematically rigorous unification of two central pillars of
+linguistic theory: the distributional hypothesis, which posits that a word’s meaning is
+determined by its context, and the principle of compositionality, which states that the meaning of a whole 
+expression is a function of the meanings of its parts and the rules used to combine them \cite{b_coeckesadrzadeh2010}.
+
+\subsubsection{Mathematical Mechanics of DisCoCat}
+The DisCoCat (Distributional Compositional Categorical) framework operates by 
+establishing a formal, structure-preserving mapping between formal grammar and vector space semantics \cite{b_yeung2021, b_murauer2023}.
+This unification allows the model to leverage the quantitative strengths of the 
+distributional hypothesis — where word meaning is derived from context, and the qualitative rigor 
+of the principle of compositionality, which dictates how those meanings combine according to grammatical rules \cite{b_murauer2023, b_khatri2022}.
+
+\subsubsection{Pregroup Grammar}
+On the syntactic side, the DisCoCat framework primarily utilizes pregroup grammars, 
+an algebraic approach introduced by Joachim Lambek where words are assigned abstract types.
+A pregroup is a partially ordered monoid where every element $p$ has a left adjoint $p^l$
+and a right adjoint $p^r$. These adjoints act as directional inverses for grammatical dependencies \cite{b_yeung2021, b_coeckesadrzadeh2010, b_khatri2022}.
+For instance:
+
+\begin{itemize}
+  \item A \textbf{noun} is assigned a basic type $n$.
+  \item A \textbf{transitive verb} is assigned a compound type $n^r s n^l$, indicating it requires a subject ($n$) on its left and an object ($n$) on its right to form a well-typed sentence of type $s$.
+  \item Linguistic reductions, such as $n \cdot n^r \rightarrow 1$, are represented as ``cups'' in a string diagram, signaling the fulfillment of these grammatical requirements.
+\end{itemize}
+
+\subsubsection{Hilbert Space Representations}
+Under this framework, word meanings are represented as vectors or higher-order tensors within high-dimensional Hilbert spaces.
+Words with basic types are represented as vectors, while functional words like verbs are represented
+as tensors whose order is determined by their compound types \cite{b_yeung2021, b_murauer2023, b_toumi2025}. Consequently, the process of parsing a sentence 
+becomes a physical process of composing these tensors \cite{b_lorenz2023, b_guarasci2022}.
+This "quantum-native" structure allows the grammatical derivation of a sentence to
+dictate the exact wiring of a quantum circuit, where word meanings are instantiated as parameterized quantum operations.
+
+\subsection{Dynamics and Duality of Quantum Noise in NISQ Systems}
+The utility of Noisy Intermediate-Scale Quantum (NISQ) devices is fundamentally governed by
+the interplay between hardware-induced disturbances and the model's Hilbert Space. Unlike
+classical noise, quantum noise is categorized by complex decoherence mechanisms primarily
+\textbf{energy relaxation ($T_1$)} and \textbf{dephasing ($T_2$)} which manifest at the
+algorithmic level as depolarizing, amplitude damping, or bit-flip error channels \cite{b_zhu2026, b_yi2025}.
+
+\subsubsection{Principles and Mechanics of Zero-Noise Extrapolation (ZNE)}
+To mitigate the systematic biases introduced by hardware decoherence, Zero-Noise Extrapolation (ZNE) 
+has emerged as a premier hardware-agnostic post-processing strategy for the NISQ era \cite{b_wang2021, b_chu2026, b_njiki2026}.
+ZNE operates on the core principle that if the expectation value of a physical 
+observable varies smoothly with the system's noise rate, one can estimate the ideal 
+"zero-noise" result by evaluating the circuit at multiple elevated noise levels and extrapolating 
+the results back to the noise-free limit \cite{b_russo, b_sayapin2025, b_pennylane_zne}.
+The workflow generally consists of two primary stages: noise amplification and extrapolation.
+
+\paragraph{Controlled Noise Amplification}
+
+In the first stage, the effective noise strength ($\lambda$) is increased in a 
+controlled manner without altering the logical state of the computation. 
+Several methodologies exist for scaling noise:
+
+
+\begin{enumerate}
+  \item \textbf{Digital Unitary Folding}: This gate-level technique replaces a unitary $U$ with the logically equivalent 
+  sequence $U(U^\dagger U)^n$. This increases the circuit depth and time-to-solution, 
+  effectively scaling the cumulative noise by odd factors of $s = 2n + 1$. \cite{b_sayapin2025, b_koenig2024}.
+  \item \textbf{Analog Pulse Stretching:} This approach involves physically
+  stretching the duration of microwave control pulses while
+  inversely scaling their amplitude, exposing qubits to
+  environmental decoherence mechanisms ($T_1$ and $T_2$) for
+  longer durations. \cite{b_russo, b_koenig2024, b_liu2026}
+  \item \textbf{Probabilistic Error Amplification (PEA)}: A model-based approach where a twirled noise model is learned
+  for each circuit layer and then amplified by inserting random Pauli gates\cite{b_koenig2024}.
+  \item \textbf{Cyclic Layout Permutations (CLP-ZNE)}: This "gray-box" method exploits the spatial 
+  non-uniformity of gate fidelities on a chip. By executing the logical circuit across different physical qubit mappings 
+  (layouts), it effectively scales the noise without adding extra gates or depth. \cite{b_sayapin2025}
+\end{enumerate}
+
+
+\paragraph{Extrapolation to the Zero-Noise Limit}
+Once expectation values $C_\lambda(\boldsymbol{\theta})$ are collected at multiple noise factors
+(typically $\lambda = 1, 3, 5$), a classical fitting model is applied. Common
+fitting functions include linear, polynomial, exponential, or Richardson
+extrapolation. The mitigated expectation value is determined by
+taking the limit as the noise scale factor approaches zero: $C_{\text{ZNE}}(\boldsymbol{\theta}) =
+\lim_{\lambda \to 0} C_\lambda(\boldsymbol{\theta})$ \cite{b_chu2026, b_njiki2026, b_russo, b_liu2026, b_mohammadipour2025}.
+
+\subsection{Synthesis and Research Gap}
+
+The reviewed studies show that Quantum Natural Language Processing (QNLP) can represent linguistic
+structure through quantum circuits and compositional models \cite{b_phukan2025, b_coecke2020, b_lorenz2023}.
+Related works also show that noise affects variational quantum models in two ways: it can sometimes
+support generalization, but it can also reduce trainability when the noise becomes too strong
+\cite{b_zhu2026, b_xhelollari, b_cincio2021}. Meanwhile, Zero-Noise Extrapolation (ZNE) is commonly
+used as an error mitigation method for estimating circuit outputs closer to the zero-noise case
+\cite{b_wang2021, b_russo, b_sayapin2025, b_mohammadipour2025}.
+
+Based on these studies, this paper focuses on a smaller and more controlled setting: a two-qubit
+Variational Quantum Classifier for binary intent classification. The gap addressed in this study is
+the limited evaluation of how depolarizing noise, measurement shot counts, and ZNE affect the accuracy
+and variance of a simple VQC model under repeated Monte Carlo trials.
 
 \begin{thebibliography}{00}
-  \bibitem{b_phukan2025}\bibPhukan
-  \bibitem{b_zhu2026}\bibZhu
-  \bibitem{b_lung2026}\bibLung
-  \bibitem{b_xhelollari}\bibXhelollari
-  \bibitem{b_cincio2021}\bibCincio
-  \bibitem{b_higgs}\bibHiggs
-  \bibitem{b_seilkhan2026}\bibSeilkhan
+  \bibitem{b_phukan2025}\bibPhukan %A survey of Quantum Natural Language Processing: From Compositional models to NISQ-Era Empiricism
+  \bibitem{b_zhu2026}\bibZhu %Rethinking Quantum Noise in Quantum Machine Learning: When Noise Improves Learning
+  \bibitem{b_lung2026}\bibLung %A Noisy Optimization Mechanism for Variational Quantum Classifiers
+  \bibitem{b_xhelollari}\bibXhelollari %Robust Hybrid Quantum-Classical Latent Diffusion Models via Quantum Noise
+  \bibitem{b_cincio2021}\bibCincio %Machine Learning of Noise-Resilient Quantum Circuits
+  \bibitem{b_higgs}\bibHiggs %Impact of Circuit Depth versus Qubit Count on Variational Quantum Classifiers for Higgs Boson Signal Detection
+  \bibitem{b_seilkhan2026}\bibSeilkhan %Comparing Classical and Quantum Variational Classifiers on the XOR Problem
+  \bibitem{b_zengcoecke2016}\bibZengCoecke %Quantum Algorithms for Compositional Natural Language Processing
+  \bibitem{b_pal2025}\bibPal %Proceedings of the QuantumNLP: Integrating Quantum Computing with Natural Language Processing
+  \bibitem{b_coecke2020}\bibCoecke %Foundations for Near-Term Quantum Natural Language Processing
+  \bibitem{b_krawchuk2025}\bibKrawchuk %Efficient Generation of Parameterised Quantum Circuits from Large Texts
+  \bibitem{b_yeung2021}\bibYeung %A CCG-Based Version of the DisCoCat Framework
+  \bibitem{b_coeckesadrzadeh2010}\bibCoeckeSadrzadeh %Mathematical Foundations for a Compositional Distributional Model of Meaning
+  \bibitem{b_murauer2023}\bibMurauer %Analyzing Word Predictions by Quantum Natural Language Processing Master's Thesis
+  \bibitem{b_khatri2022}\bibKhatri %Experimental Comparison of Ansätze for Quantum Natural Language Processing
+  \bibitem{b_toumi2025}\bibToumi %Higher-Order DisCoCat (Peirce-Lambek-Montague Semantics)
+  \bibitem{b_lorenz2023}\bibLorenz %QNLP in Practice: Running Compositional Models of Meaning on a Quantum Computer
+  \bibitem{b_guarasci2022}\bibGuarasci %Quantum Natural Language Processing: Challenges and Opportunities
+  \bibitem{b_yi2025}\bibYi %Quantum Integration Networks for Efficient Monte Carlo in High-Energy Physics
+  \bibitem{b_wang2021}\bibWang %Can Error Mitigation Improve Trainability of Noisy Variational Quantum Algorithms?
+  \bibitem{b_chu2026}\bibChu %QNBAD: Quantum Noise-induced Backdoor Attacks against Zero Noise Extrapolation
+  \bibitem{b_njiki2026}\bibNjiki %Robustness Evaluation of Hybrid Quantum Neural Networks under Noise Models via System-Level Error Mitigation
+  \bibitem{b_russo}\bibRusso %ZNE Technique Details - The QEM Zoo
+  \bibitem{b_sayapin2025}\bibSayapin %Zero-Noise Extrapolation via Cyclic Permutations of Quantum Circuit Layouts
+  \bibitem{b_pennylane_zne}\bibPennyLaneZNE %catalyst.mitigate_with_zne documentation
+  \bibitem{b_koenig2024}\bibKoenig %Inverted-circuit zero-noise extrapolation for quantum-gate error mitigation
+  \bibitem{b_ibm_error_mitigation}\bibIBMErrorMitigation %Error mitigation and suppression techniques
+  \bibitem{b_liu2026}\bibLiu %Accelerating Noisy Variational Quantum Algorithms with Physics-Informed Denoising Networks
+  \bibitem{b_mohammadipour2025}\bibMohammadipour %Direct analysis of Zero-Noise extrapolation: polynomial methods, error bounds, and simultaneous Physical-Algorithmic error mitigation
 \end{thebibliography}
 
 \end{document}
