@@ -1,5 +1,5 @@
 def hello_world():
-    print("Hello, World from Jupyter Notebook!")
+    print("Hello, World!")
 
 
 def echo(value):
