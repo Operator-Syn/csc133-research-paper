@@ -12,11 +12,20 @@
 \usepackage{cite}
 \usepackage{newtxtext, newtxmath}
 \usepackage[none]{hyphenat}
+\usepackage{float}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{svg}
+\usepackage{xcolor}
 
 % -------------------------------------------------------
 % Title
 % -------------------------------------------------------
-\title{Monte Carlo Simulation of Noise-Resilient Two-Qubit Variational Quantum Classifiers with Zero-Noise Extrapolation for Intent Classification}
+\title{%
+{\normalfont\normalsize\color{gray} CSC 133 -- Modelling and Simulation}\\[2.2em]%
+Monte Carlo Simulation of Noise-Resilient Two-Qubit Variational Quantum
+Classifiers with Zero-Noise Extrapolation for Intent Classification
+}
 
 % -------------------------------------------------------
 % Author block
@@ -37,20 +46,21 @@
   \mdseries
 This study presents a Monte Carlo simulation framework to evaluate the
 performance of a \textbf{2-qubit Variational Quantum Classifier (VQC)} for binary
-intent classification under Noisy Intermediate-Scale Quantum (NISQ)
-conditions. Using a focused subset of the 
-\href{https://huggingface.co/datasets/tanaos/synthetic-intent-classifier-dataset-v1}{\textbf{Tanaos synthetic intent classifier v1}} dataset, 
+intent classification under simulated Noisy Intermediate-Scale Quantum (NISQ)
+conditions. Using a focused subset of the
+{\textbf{Tanaos synthetic intent classifier v1}} dataset \cite{b_tanaos_dataset},
 the task is restricted to \textbf{``Greeting''} and \textbf{``Farewell''} categories to
 suit the 2-qubit architecture. Text utterances are vectorized via TF-IDF and
-reduced to a 2-dimensional feature space using Principal Component Analysis (PCA). 
-The model architecture utilizes a ZZFeatureMap for quantum state
-encoding and a RealAmplitudes variational circuit with six trainable
-parameters. To combat hardware imperfections, we integrate \textbf{Zero Noise Extrapolation (ZNE)} 
-as an error mitigation strategy. We systematically evaluate the pipeline by varying 
-depolarizing noise levels (0--10\%), measurement shot counts (100--10{,}000), and circuit 
-repetitions. Through 1,000 independent Monte Carlo trials per configuration, we report mean accuracy 
-and statistical variance, showing that ZNE establishes a noise-resilient reliability baseline for 
-near-term quantum NLU tasks.
+reduced to a 2-dimensional feature space using Principal Component Analysis (PCA).
+The model architecture uses a ZZFeatureMap with one repetition for quantum state
+encoding and a RealAmplitudes variational circuit with two repetitions, resulting
+in six trainable parameters. To mitigate simulated depolarizing-noise effects, we
+apply \textbf{Zero Noise Extrapolation (ZNE)} as an error mitigation strategy. The
+pipeline is evaluated across discrete depolarizing noise levels of 0\%, 1\%, 3\%,
+5\%, 7\%, and 10\%, together with measurement shot counts of 100, 1{,}000, and
+10{,}000. For each noise-shot configuration, the experiment performs 1{,}000
+seed-varied Monte Carlo trials to estimate mean accuracy and statistical variance
+under finite-shot and depolarizing noise conditions.
 }
 
 % -------------------------------------------------------
@@ -58,10 +68,11 @@ near-term quantum NLU tasks.
 % -------------------------------------------------------
 \def\mykeywords{%
   \mdseries
-  Variational Quantum Classifier (VQC), Monte Carlo Simulation,
-  Noisy Intermediate-Scale Quantum (NISQ), Intent Classification (IC),
-  Machine Learning, Quantum Machine Learning (QML), Quantum Noise,
-  Tanaos Dataset%
+  Variational Quantum Classifier (VQC), Zero-Noise Extrapolation (ZNE),
+  Monte Carlo Simulation, Noisy Intermediate-Scale Quantum (NISQ),
+  Intent Classification, Depolarizing Noise, Measurement Shots,
+  Quantum Machine Learning (QML), TF-IDF,
+  Principal Component Analysis (PCA), Tanaos Dataset%
 }
 
 % -------------------------------------------------------
@@ -271,10 +282,18 @@ near-term quantum NLU tasks.
   \url{https://doi.org/10.22331/q-2025-11-14-1909}%
 }
 
+\def\bibTanaosDataset{%
+  Tanaos,
+  ``Tanaos synthetic intent classifier dataset v1,''
+  Hugging Face, dataset.
+  \url{https://huggingface.co/datasets/tanaos/synthetic-intent-classifier-dataset-v1}.
+}
+
 % -------------------------------------------------------
 % Document
 % -------------------------------------------------------
 \begin{document}
+\raggedbottom
 
 \maketitle
 
@@ -291,50 +310,57 @@ near-term quantum NLU tasks.
 % -------------------------------------------------------
 \section{Introduction}
 \label{sec:introduction}
-Research in Natural Language Processing (NLP) increasingly incorporates quantum-enhanced machine learning methods. 
-However, current Noisy Intermediate-Scale Quantum (NISQ) devices remain highly sensitive to 
-decoherence and gate errors, this noise, limits their reliability. \cite{b_phukan2025}.
-% Monte Carlo simulations were conducted to observe how increasing noise and changes in measurement precision impact 
-% classification accuracy in a constrained quantum circuit.
 
-NISQ-era quantum computers face two main technical challenges: the rapid environmental decoherence 
-and the gate error rates, which depending on the specific hardware platform and experimental setup;
-are often reported in the 0.1\% to 1\% ranges. 
-Compared to classical computer systems, quantum noise compounds dynamically with every physical operation, this
-causes the fidelity of the overall quantum state to decay as circuit depth and quantum gate counts scale. 
-This operational decay often restricts reliable computation to shallow architectures of no more than 100 layers \cite{b_zhu2026}.
-Without error mitigation strategies, scaling current hardware beyond architectural limits remains constrained.
+Research in Natural Language Processing (NLP) increasingly incorporates
+quantum-enhanced machine learning methods. However, current
+Noisy Intermediate-Scale Quantum (NISQ) devices remain sensitive to
+decoherence and gate errors, limiting their reliability in practical
+computational settings \cite{b_phukan2025}.
 
-Optimizing high-dimensional Natural Language Understanding (NLU) models often
-introduces the additional challenge of the 'barren plateau' phenomenon. 
-The barren plateau phenomenon is where cost function gradients vanish exponentially as 
-the qubit count scales; this amplifies the hardware instability \cite{b_phukan2025}. 
-These plateaus effectively trap optimizers in suboptimal search regions, often leading to premature 
-convergence and poor classification performance of Machine Learning Systems \cite{b_lung2026}
+NISQ-era quantum computers face two main technical constraints:
+environmental decoherence and imperfect gate operations. Depending on the
+hardware platform and experimental setup, gate error rates are often reported
+in the 0.1\% to 1\% range. Unlike classical computational noise, quantum noise
+compounds with each physical operation; as circuit depth and gate count
+increase, the fidelity of the overall quantum state can decay. This operational
+decay often restricts reliable computation to shallow circuit architectures
+\cite{b_zhu2026}. Without error mitigation strategies, scaling current quantum
+hardware beyond these limits remains constrained.
 
-Previous analyses of quantum noise dynamics have shown that controlled stochastic 
-effects can behave like a regularizer, leading to reductions in both the model’s Lipschitz 
-constant and the Quantum Fisher Information Matrix (QFIM). \cite{b_zhu2026}.
-These mechanisms bring flatter minima in the loss landscape, which have been shown to yield tighter
-Probably Approximately Correct (PAC)-Bayesian generalization bounds \cite{b_xhelollari}.
+Optimizing high-dimensional Natural Language Understanding (NLU) models also
+introduces the challenge of barren plateaus. In variational quantum algorithms,
+barren plateaus occur when cost-function gradients vanish exponentially as the
+qubit count increases, making optimization increasingly difficult
+\cite{b_phukan2025}. These plateaus can trap optimizers in suboptimal search
+regions, leading to premature convergence and poor classification performance
+\cite{b_lung2026}.
 
-However, this benefit introduces a critical tension between regularizing the model and maintaining its trainability.\cite{b_zhu2026, b_cincio2021}.
-If pushed beyond a critical threshold, this state-space contraction triggers noise-induced barren plateaus (NIBPs), 
-where gradients vanish exponentially and beneficial stochastic fluctuations become disruptive instead of
-aiding optimization \cite{b_xhelollari, b_higgs}.How the model responds to the noise depends 
-strictly on initialization: it assists under-optimized models 
-but disrupts well-converged ones, establishing a negative correlation with baseline performance. \cite{b_zhu2026}.
+Previous analyses of quantum noise dynamics have shown that controlled
+stochastic effects can behave like a regularizer, reducing both the model's
+Lipschitz constant and the Quantum Fisher Information Matrix (QFIM)
+\cite{b_zhu2026}. These effects can encourage flatter minima in the loss
+landscape, which have been associated with tighter Probably Approximately
+Correct (PAC)-Bayesian generalization bounds \cite{b_xhelollari}.
 
-A Monte Carlo simulation framework isolates the transition between beneficial regularization 
-and catastrophic decoherence. The pipeline evaluates 1,000 independent trials for each discrete 
-configuration of depolarizing noise (1–10\%) and measurement shot counts. 
-The high-volume sampling extracts the statistical variance introduced by hardware fluctuations 
-and finite-shot sampling noise, both of which actively degrade gradient estimation and model output.
+However, this benefit introduces a critical tension between regularizing the
+model and maintaining its trainability \cite{b_zhu2026, b_cincio2021}. If noise
+is pushed beyond a critical threshold, state-space contraction can trigger
+noise-induced barren plateaus (NIBPs), where gradients vanish exponentially and
+beneficial stochastic fluctuations become disruptive instead of aiding
+optimization \cite{b_xhelollari, b_higgs}. The model's response to noise also
+depends on initialization: noise may assist under-optimized models while
+disrupting well-converged ones, establishing a negative correlation with
+baseline performance \cite{b_zhu2026}.
 
-
-% A system-wide reliability boundary provides a framework to evaluate where hardware-induced 
-% decoherence begins to overwhelm predictive utility. This shift typically manifests as noise 
-% introduces granularity and local irregularities into the continuous decision function. \cite{b_seilkhan2026}
+This study uses a Monte Carlo simulation framework to examine how simulated
+depolarizing noise, measurement shot count, and Zero-Noise Extrapolation (ZNE)
+affect the behavior of a fixed two-qubit Variational Quantum Classifier (VQC).
+The pipeline evaluates 1{,}000 seed-varied Monte Carlo trials for each discrete
+configuration of depolarizing noise at 0\%, 1\%, 3\%, 5\%, 7\%, and 10\%,
+combined with measurement shot counts of 100, 1{,}000, and 10{,}000. This
+repeated evaluation is intended to estimate the statistical variance introduced
+by simulator stochasticity and finite-shot sampling noise, both of which can
+affect the measured classifier output.
 
 % -------------------------------------------------------
 % Section II: Related Literature
@@ -487,6 +513,487 @@ Variational Quantum Classifier for binary intent classification. The gap address
 the limited evaluation of how depolarizing noise, measurement shot counts, and ZNE affect the accuracy
 and variance of a simple VQC model under repeated Monte Carlo trials.
 
+\section{Methodology}
+
+This study uses a controlled simulation-based methodology to evaluate how
+depolarizing noise, measurement shot count, and Zero-Noise Extrapolation (ZNE)
+affect the accuracy and variance of a two-qubit Variational Quantum Classifier
+(VQC). The workflow follows a fixed-model evaluation design. The VQC is first
+trained under a clean statevector setting. After training, the learned ansatz
+parameters are extracted and reused during noisy and ZNE-based simulations. The
+VQC is not retrained during noisy evaluation. This isolates the effects of
+simulator noise, measurement shots, and ZNE from variation caused by repeated
+model training.
+
+\subsection{Dataset Preparation and Feature Extraction}
+
+The experiment uses the Tanaos synthetic intent classifier dataset
+\cite{b_tanaos_dataset}, a Hugging Face-hosted English text classification
+dataset with numeric intent labels from 0 to 11. This study restricts the task
+to two intent categories: Greeting and Farewell, corresponding to labels 0 and 1. The
+selected subset is balanced by sampling 500 utterances from each class, producing
+1{,}000 total samples. The balanced dataset is divided into training and testing
+sets using an 80/20 stratified split, producing 800 training samples and 200
+testing samples.
+
+Text features are extracted using Term Frequency--Inverse Document Frequency
+(TF-IDF) with English stopword removal and a maximum vocabulary size of 500.
+Principal Component Analysis (PCA) is then applied to reduce the TF-IDF feature
+space to two components, matching the two-qubit input dimension of the VQC. The
+TF-IDF vectorizer and PCA transformation are fitted only on the training set and
+then applied to the test set to avoid information leakage.
+
+\begin{algorithm}[H]
+\caption{Dataset Preparation and Feature Extraction}
+\label{alg:data_features}
+\begin{algorithmic}[1]
+\Require Dataset $D$, target labels $L=\{0,1\}$, samples per label $n=500$, test ratio $r=0.20$, base seed $s_0=42$
+\Ensure Training features $X_{\mathrm{train}}$, test features $X_{\mathrm{test}}$, labels $y_{\mathrm{train}}$, $y_{\mathrm{test}}$
+\State Load the Tanaos synthetic intent classifier dataset.
+\State Standardize the label column name to \texttt{label}, if needed.
+\State Filter $D$ to retain only \textit{Greeting} and \textit{Farewell}.
+\For{each label $\ell \in L$}
+    \State Randomly sample $n$ examples from class $\ell$ using seed $s_0$.
+\EndFor
+\State Concatenate the sampled class subsets into a balanced dataset $D_b$.
+\State Split $D_b$ into train and test sets using stratified sampling with test ratio $r$ and seed $s_0$.
+\State Fit a TF-IDF vectorizer on the training text with English stopword removal and a 500-feature limit.
+\State Transform the training and test text into TF-IDF matrices.
+\State Fit PCA with two components on the training TF-IDF matrix.
+\State Transform both training and test TF-IDF matrices using the fitted PCA model.
+\State \Return $X_{\mathrm{train}}$, $X_{\mathrm{test}}$, $y_{\mathrm{train}}$, $y_{\mathrm{test}}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Variational Quantum Classifier Training}
+
+The VQC uses a \texttt{ZZFeatureMap} with one repetition for data encoding and a
+\texttt{RealAmplitudes} ansatz with two repetitions for trainable quantum
+parameters. This produces six trainable ansatz parameters. The model is trained
+using the COBYLA optimizer with a maximum of 100 iterations. Clean training uses
+Qiskit's \texttt{StatevectorSampler}; therefore, the training stage does not
+include depolarizing noise or finite-shot sampling.
+
+The classifier uses a binary parity interpretation. Even-parity measured
+bitstrings are mapped to class 0, while odd-parity bitstrings are mapped to class
+1. The same parity rule is also used during noisy simulation so that clean and
+noisy evaluation follow the same label-mapping rule.
+
+\begin{algorithm}[H]
+\caption{Clean VQC Training}
+\label{alg:vqc_training}
+\begin{algorithmic}[1]
+\Require Training features $X_{\mathrm{train}}$, training labels $y_{\mathrm{train}}$
+\Ensure Trained VQC model $M$, feature map $U_{\phi}$, ansatz $U_{\theta}$
+\State Construct a two-qubit \texttt{ZZFeatureMap} $U_{\phi}$ with one repetition.
+\State Construct a two-qubit \texttt{RealAmplitudes} ansatz $U_{\theta}$ with two repetitions.
+\State Define the parity interpretation $f(b)$.
+\State Map even-parity bitstrings to class 0.
+\State Map odd-parity bitstrings to class 1.
+\State Initialize a VQC using $U_{\phi}$, $U_{\theta}$, COBYLA, \texttt{StatevectorSampler}, and parity output interpretation.
+\State Train the VQC on $(X_{\mathrm{train}}, y_{\mathrm{train}})$.
+\State \Return trained model $M$, feature map $U_{\phi}$, ansatz $U_{\theta}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Clean Baseline Evaluation}
+
+After training, the clean VQC is evaluated on the held-out test set. This
+baseline evaluation does not use simulated depolarizing noise or ZNE. Accuracy,
+a classification report, and a confusion matrix are generated. The clean
+baseline is used as a reference for checking whether the fixed noisy evaluator
+remains consistent with the trained classifier when the base noise level is zero.
+
+\subsection{Fixed-Model Noisy Evaluation}
+
+Noisy evaluation is performed using Qiskit Aer with an optional depolarizing
+noise model. For a noise level of 0.00, the simulator is run without a noise
+model. For nonzero noise levels, single-qubit depolarizing errors are attached
+to common one-qubit gates, and two-qubit depolarizing errors are attached to
+common two-qubit gates.
+
+The noisy evaluator uses the trained VQC as a fixed model. The trained ansatz
+weights are extracted from the fitted VQC and reused for all noisy simulations.
+The feature map and ansatz are composed into a single parameterized circuit,
+measurement operations are added, and the circuit is decomposed before being
+passed through a preset transpilation pass manager. The pass manager and Aer
+backend are both seeded using the Monte Carlo trial seed. After transpilation,
+each test sample is bound to the feature-map parameters, while the same trained
+ansatz weights are bound to the ansatz parameters for every sample. The bound
+test circuits are executed as a batch using the selected shot count. Measurement
+counts are converted into class predictions using the same parity rule used by
+the clean VQC.
+
+\begin{algorithm}[H]
+\caption{Fixed-Model Noisy VQC Evaluation}
+\label{alg:noisy_eval}
+\begin{algorithmic}[1]
+\Require Trained VQC $M$, feature map $U_{\phi}$, ansatz $U_{\theta}$, test features $X_{\mathrm{test}}$, test labels $y_{\mathrm{test}}$, noise level $\lambda$, shots $q$, seed $s$
+\Ensure Noisy accuracy $A(\lambda,q,s)$
+
+\State Extract trained ansatz weights $\hat{\theta}$ from $M$.
+\State Compose the parameterized circuit $C$ by applying $U_{\phi}$ followed by $U_{\theta}$.
+\State Add measurement operations to all qubits in $C$.
+\State Decompose $C$ into simulator-compatible basis operations.
+
+\If{$\lambda \leq 0$}
+    \State Set the noise model $N \gets \texttt{None}$.
+\Else
+    \State Build a depolarizing noise model $N$ with error rate $\lambda$.
+    \State Attach one-qubit depolarizing errors to common one-qubit gates.
+    \State Attach two-qubit depolarizing errors to common two-qubit gates.
+\EndIf
+
+\State Initialize an Aer simulator backend using noise model $N$ and simulator seed $s$.
+\State Generate a preset pass manager with optimization level 1, backend information, and transpiler seed $s$.
+\State Transpile the decomposed parameterized circuit $C$ using the pass manager, producing $C'$.
+
+\State Initialize an empty list of bound circuits $B$.
+\For{each test sample $x_i \in X_{\mathrm{test}}$}
+    \State Create a parameter assignment dictionary.
+    \State Bind the components of $x_i$ to the feature-map parameters of $U_{\phi}$.
+    \State Bind the trained weights $\hat{\theta}$ to the ansatz parameters of $U_{\theta}$.
+    \State Assign all parameters to the transpiled circuit $C'$ to produce a bound circuit $C_i$.
+    \State Append $C_i$ to $B$.
+\EndFor
+
+\State Execute all bound circuits $B$ as one batch on the Aer backend using $q$ shots.
+\State Initialize an empty prediction list $\hat{Y}$.
+
+\For{each circuit result index $i$}
+    \State Retrieve the measured bitstring counts for bound circuit $C_i$.
+    \State Remove spaces from each measured bitstring, if present.
+    \State Compute the parity of each bitstring.
+    \State Accumulate even-parity counts as class 0 and odd-parity counts as class 1.
+    \If{class 0 count is greater than or equal to class 1 count}
+        \State Predict class 0.
+    \Else
+        \State Predict class 1.
+    \EndIf
+    \State Append the predicted class to $\hat{Y}$.
+\EndFor
+
+\State Compute $A(\lambda,q,s)$ as the accuracy between $y_{\mathrm{test}}$ and $\hat{Y}$.
+\State \Return $A(\lambda,q,s)$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Noise and Shot-Count Sweep}
+
+The experiment evaluates six discrete base depolarizing noise levels:
+
+\[
+0\%,\ 1\%,\ 3\%,\ 5\%,\ 7\%,\ 10\%.
+\]
+
+For each base noise level, the fixed VQC is evaluated under three measurement
+shot counts:
+
+\[
+100,\ 1{,}000,\ 10{,}000.
+\]
+
+This produces 18 noise-shot configurations. Since the VQC is not retrained
+across these configurations, changes in performance are attributed to simulated
+noise level, measurement shot count, and Monte Carlo sampling seed.
+
+\subsection{Zero-Noise Extrapolation}
+
+Zero-Noise Extrapolation is applied as a post-processing error mitigation
+procedure. For each base noise level $\lambda$, the trained classifier is
+evaluated at three noise scale factors:
+
+\[
+1,\ 3,\ 5.
+\]
+
+The scaled noise levels are therefore
+
+\[
+\lambda,\ 3\lambda,\ 5\lambda.
+\]
+
+The accuracy measured at scale factor 1 is treated as the raw noisy accuracy.
+The ZNE estimate is obtained by fitting a linear model between scaled noise
+levels and observed accuracies. The fitted intercept at zero noise is used as
+the ZNE-mitigated accuracy estimate. If all scaled noise levels are identical,
+as in the 0.00 base-noise case, the measured accuracy is returned directly. The
+extrapolated accuracy is clipped to the interval $[0,1]$.
+
+\begin{algorithm}[H]
+\caption{Zero-Noise Extrapolation for One Configuration}
+\label{alg:zne}
+\begin{algorithmic}[1]
+\Require Trained VQC $M$, feature map $U_{\phi}$, ansatz $U_{\theta}$, test set $(X_{\mathrm{test}}, y_{\mathrm{test}})$, base noise $\lambda$, shots $q$, seed $s$, scale factors $S=\{1,3,5\}$
+\Ensure Raw accuracy $A_{\mathrm{raw}}$, ZNE accuracy $A_{\mathrm{ZNE}}$, ZNE delta $\Delta_{\mathrm{ZNE}}$
+\State Initialize empty lists $N \gets [\ ]$ and $A \gets [\ ]$.
+\For{each scale factor $k \in S$}
+    \State Compute scaled noise $\lambda_k \gets \min(k\lambda, 1.0)$.
+    \State Evaluate the fixed VQC under $\lambda_k$ using Algorithm~\ref{alg:noisy_eval}.
+    \State Append $\lambda_k$ to $N$ and the measured accuracy $A_k$ to $A$.
+\EndFor
+\State Set $A_{\mathrm{raw}}$ to the accuracy measured at scale factor 1.
+\If{all values in $N$ are identical}
+    \State Set $A_{\mathrm{ZNE}} \gets A_{\mathrm{raw}}$.
+\Else
+    \State Fit a linear model $A_k = m\lambda_k + b$ over the pairs $(N,A)$.
+    \State Set $A_{\mathrm{ZNE}} \gets b$.
+    \State Clip $A_{\mathrm{ZNE}}$ to the interval $[0,1]$.
+\EndIf
+\State Compute $\Delta_{\mathrm{ZNE}} \gets A_{\mathrm{ZNE}} - A_{\mathrm{raw}}$.
+\State \Return $A_{\mathrm{raw}}$, $A_{\mathrm{ZNE}}$, $\Delta_{\mathrm{ZNE}}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Monte Carlo Evaluation Design}
+
+A base random seed of 42 is used for reproducibility. This seed controls dataset
+sampling, the train-test split, and the initial Python and NumPy random states.
+For the Monte Carlo sweep, the simulator seed is not kept constant. For each
+trial, the seed is computed as
+
+\[
+s_t = s_0 + t,
+\]
+
+where $s_0=42$ and $t$ is the trial index. Thus, each noise-shot configuration
+is evaluated across 1{,}000 deterministic but distinct simulator seeds. The same
+seed sequence is reused across different noise-shot configurations, keeping
+comparisons reproducible and paired by trial index.
+
+Because there are six base noise levels, three shot counts, and 1{,}000 trials
+per configuration, the complete sweep contains
+
+\[
+6 \times 3 \times 1{,}000 = 18{,}000
+\]
+
+ZNE evaluation jobs. Each ZNE job evaluates three scaled noise levels, so the
+full sweep performs
+
+\[
+18{,}000 \times 3 = 54{,}000
+\]
+
+scaled noisy evaluations.
+
+\begin{algorithm}[H]
+\caption{Monte Carlo ZNE Sweep}
+\label{alg:mc_sweep}
+\begin{algorithmic}[1]
+\Require Noise levels $\Lambda=\{0.00,0.01,0.03,0.05,0.07,0.10\}$, shot counts $Q=\{100,1000,10000\}$, trials $T=1000$, base seed $s_0=42$, scale factors $S=\{1,3,5\}$
+\Ensure Raw trial table $R$
+\State Initialize empty result table $R$.
+\For{each base noise level $\lambda \in \Lambda$}
+    \For{each shot count $q \in Q$}
+        \For{$t = 0$ to $T-1$}
+            \State Set trial seed $s_t \gets s_0 + t$.
+            \State Run Algorithm~\ref{alg:zne} using $\lambda$, $q$, $s_t$, and $S$.
+            \State Store $\lambda$, $q$, $s_t$, scaled noise levels, scaled accuracies, $A_{\mathrm{raw}}$, $A_{\mathrm{ZNE}}$, and $\Delta_{\mathrm{ZNE}}$ in $R$.
+        \EndFor
+    \EndFor
+\EndFor
+\State Sort $R$ by base noise level, shot count, and seed.
+\State \Return $R$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Monte Carlo Result Summarization and Output Generation}
+\label{alg:mc_postprocessing}
+\begin{algorithmic}[1]
+\Require Raw trial table $R$
+\Ensure Grouped summary table $G$, saved CSV files, and result figures
+\State Group $R$ by base noise level and shot count.
+\State Compute mean raw accuracy for each group.
+\State Compute mean ZNE accuracy for each group.
+\State Compute raw and ZNE accuracy variance for each group.
+\State Compute raw and ZNE accuracy standard deviation for each group.
+\State Compute mean ZNE delta for each group.
+\State Compute minimum and maximum ZNE accuracy for each group.
+\State Count the number of Monte Carlo trials in each group.
+\State Store the grouped statistics in summary table $G$.
+\State Generate the raw-versus-ZNE mean accuracy plot.
+\State Generate the raw-versus-ZNE accuracy variance plot.
+\State Generate the ZNE accuracy gain plot.
+\State Save $R$ and $G$ as timestamped CSV files.
+\State \Return $G$
+\end{algorithmic}
+\end{algorithm}
+
+The Monte Carlo sweep produces the raw trial-level ZNE results. These raw results
+are then converted into a dataframe, grouped by base noise level and shot count,
+summarized statistically, plotted, and saved as timestamped CSV files in separate
+post-processing steps.
+
+\subsection{Evaluation Metrics}
+
+The primary metric is classification accuracy on the held-out test set. For each
+noise-shot configuration, the 1{,}000 Monte Carlo trials are summarized using
+mean raw accuracy, mean ZNE accuracy, raw accuracy variance, ZNE accuracy
+variance, raw standard deviation, ZNE standard deviation, mean ZNE delta, minimum
+ZNE accuracy, and maximum ZNE accuracy.
+
+The ZNE accuracy delta is defined as
+
+\[
+\Delta_{\mathrm{ZNE}} = A_{\mathrm{ZNE}} - A_{\mathrm{raw}},
+\]
+
+where $A_{\mathrm{ZNE}}$ is the extrapolated ZNE accuracy and
+$A_{\mathrm{raw}}$ is the accuracy measured at the unscaled base noise level.
+The raw Monte Carlo outputs and grouped summary statistics are saved as
+timestamped CSV files to prevent accidental overwriting of previous experiment
+outputs.
+
+\section{Results}
+
+This section presents the clean baseline performance and the Monte Carlo
+Zero-Noise Extrapolation (ZNE) results produced by the two-qubit VQC experiment.
+The experiment evaluated six base depolarizing noise levels, three shot counts,
+and 1{,}000 Monte Carlo trials per noise-shot configuration, resulting in
+18{,}000 ZNE evaluation runs.
+
+\subsection{Clean Baseline Performance}
+
+The clean statevector VQC obtained an accuracy of 0.6000 on the 200-sample
+held-out test set. The test set was balanced, with 100 Greeting samples and 100
+Farewell samples. The classifier correctly identified 41 Greeting samples and
+79 Farewell samples. This indicates that the trained model was more sensitive to
+the Farewell class than the Greeting class in the clean baseline setting.
+
+\begin{table}[!t]
+\caption{Clean Baseline Confusion Matrix}
+\label{tab:clean_confusion_matrix}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{True Label} & \textbf{Predicted Greeting} & \textbf{Predicted Farewell} \\
+\midrule
+Greeting & 41 & 59 \\
+Farewell & 21 & 79 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+\centering
+\includesvg[width=\columnwidth]{../notebooks/results/figures/clean_baseline_vqc_confusion_matrix}
+\caption{Confusion matrix of the clean baseline VQC on the held-out test set.}
+\label{fig:clean_confusion_matrix}
+\end{figure}
+
+The clean baseline accuracy serves as the reference point for interpreting the
+fixed-model noisy simulations. However, the zero-noise Monte Carlo rows are not
+identical to the clean statevector result because the fixed-model evaluator uses
+finite-shot measurement counts and simulator seeds rather than exact statevector
+classification.
+
+\subsection{Monte Carlo ZNE Summary}
+
+Table~\ref{tab:zne_summary_results} reports the mean raw accuracy, mean ZNE
+accuracy, ZNE gain, and standard deviation for every tested noise-shot
+configuration. Accuracy and standard deviation are reported in percent, while
+ZNE gain is reported in percentage points.
+
+\begin{table*}[!t]
+\caption{Monte Carlo Raw and ZNE Accuracy Summary Across Noise Levels and Shot Counts}
+\label{tab:zne_summary_results}
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Noise} & \textbf{Shots} & \textbf{Raw Mean (\%)} & \textbf{ZNE Mean (\%)} & \textbf{Gain (pp)} & \textbf{Raw SD (pp)} & \textbf{ZNE SD (pp)} \\
+\midrule
+0.00 & 100 & 60.79 & 60.79 & 0.00 & 2.53 & 2.53 \\
+0.00 & 1,000 & 61.70 & 61.70 & 0.00 & 1.51 & 1.51 \\
+0.00 & 10,000 & 62.59 & 62.59 & 0.00 & 0.52 & 0.52 \\
+0.01 & 100 & 60.62 & 60.77 & 0.15 & 2.60 & 2.90 \\
+0.01 & 1,000 & 61.71 & 61.87 & 0.16 & 1.69 & 1.92 \\
+0.01 & 10,000 & 62.94 & 62.95 & 0.00 & 0.55 & 0.72 \\
+0.03 & 100 & 60.51 & 62.57 & 2.06 & 2.71 & 3.13 \\
+0.03 & 1,000 & 61.54 & 62.18 & 0.64 & 2.03 & 2.43 \\
+0.03 & 10,000 & 63.48 & 64.35 & 0.87 & 0.73 & 1.13 \\
+0.05 & 100 & 60.17 & 62.07 & 1.90 & 2.95 & 3.26 \\
+0.05 & 1,000 & 61.18 & 64.19 & 3.00 & 2.28 & 2.65 \\
+0.05 & 10,000 & 63.37 & 65.40 & 2.03 & 1.12 & 1.59 \\
+0.07 & 100 & 59.75 & 61.00 & 1.25 & 3.06 & 3.30 \\
+0.07 & 1,000 & 60.84 & 63.15 & 2.32 & 2.45 & 2.76 \\
+0.07 & 10,000 & 62.72 & 66.39 & 3.67 & 1.44 & 1.84 \\
+0.10 & 100 & 58.23 & 58.98 & 0.75 & 3.26 & 3.41 \\
+0.10 & 1,000 & 60.22 & 61.31 & 1.09 & 2.69 & 2.87 \\
+0.10 & 10,000 & 61.74 & 63.55 & 1.81 & 1.74 & 1.95 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Across all nonzero-noise configurations, ZNE produced a positive mean accuracy
+gain. The average ZNE gain over the 15 nonzero-noise configurations was
+approximately 1.45 percentage points. The largest observed gain occurred at a
+base noise level of 0.07 with 10{,}000 shots, where mean accuracy increased from
+62.72\% to 66.39\%, corresponding to a 3.67 percentage-point improvement.
+
+\begin{figure}[H]
+\centering
+\includesvg[width=\columnwidth]{../notebooks/results/figures/raw_vs_zne_mean_accuracy_20260526_191839_604259}
+\caption{Mean raw accuracy and mean ZNE accuracy across tested depolarizing noise levels and shot counts.}
+\label{fig:raw_vs_zne_mean_accuracy}
+\end{figure}
+
+The raw accuracy results were not strictly monotonic with respect to noise. For
+example, the 10{,}000-shot raw accuracy increased from 62.59\% at zero noise to
+63.48\% at 0.03 noise before decreasing at higher noise levels. This behavior
+suggests that the simulated noise did not act only as a simple degrading factor
+in this fixed-model evaluation. However, this should be interpreted cautiously,
+since the experiment uses a small two-qubit classifier, finite-shot majority
+decoding, and a reduced two-dimensional feature representation.
+
+\subsection{Effect of Shot Count on Stability}
+
+Increasing the shot count reduced the Monte Carlo spread of the raw and ZNE
+accuracy estimates. Averaged across all noise levels, the raw standard deviation
+was approximately 2.85 percentage points at 100 shots, 2.11 percentage points at
+1{,}000 shots, and 1.02 percentage points at 10{,}000 shots. The same pattern
+appeared for ZNE, although ZNE remained more variable than the corresponding raw
+estimate.
+
+\begin{figure}[H]
+\centering
+\includesvg[width=\columnwidth]{../notebooks/results/figures/raw_vs_zne_accuracy_variance_20260526_192538_752654}
+\caption{Raw and ZNE accuracy variance across tested depolarizing noise levels and shot counts.}
+\label{fig:raw_vs_zne_variance}
+\end{figure}
+
+For every nonzero-noise configuration, the ZNE variance was higher than the raw
+accuracy variance. This is expected from the design of the experiment because the
+ZNE estimate is computed from multiple noisy evaluations at scaled noise levels.
+The extrapolated intercept can improve the mean estimate, but it can also
+amplify trial-level variation.
+
+\subsection{ZNE Accuracy Gain}
+
+Figure~\ref{fig:zne_accuracy_gain} shows the mean ZNE accuracy gain for each
+noise-shot configuration. The gain was small at 0.01 noise, became more visible
+at moderate noise levels, and remained positive at 0.10 noise. The strongest
+gain occurred at 0.07 noise with 10{,}000 shots.
+
+\begin{figure}[H]
+\centering
+\includesvg[width=\columnwidth]{../notebooks/results/figures/zne_accuracy_gain_20260526_192753_220013}
+\caption{Mean ZNE accuracy gain across tested depolarizing noise levels and shot counts.}
+\label{fig:zne_accuracy_gain}
+\end{figure}
+
+These results indicate that ZNE improved the mean accuracy of the fixed trained
+VQC under simulated depolarizing noise, but the improvement came with increased
+variance. Therefore, the results support a limited conclusion: in this controlled
+two-qubit simulation, linear ZNE can improve average noisy evaluation accuracy,
+but it does not uniformly stabilize the classifier output. The method is better
+understood as an accuracy-bias correction technique rather than a general
+variance-reduction technique.
+
+\clearpage
 \begin{thebibliography}{00}
   \bibitem{b_phukan2025}\bibPhukan %A survey of Quantum Natural Language Processing: From Compositional models to NISQ-Era Empiricism
   \bibitem{b_zhu2026}\bibZhu %Rethinking Quantum Noise in Quantum Machine Learning: When Noise Improves Learning
@@ -517,6 +1024,7 @@ and variance of a simple VQC model under repeated Monte Carlo trials.
   \bibitem{b_ibm_error_mitigation}\bibIBMErrorMitigation %Error mitigation and suppression techniques
   \bibitem{b_liu2026}\bibLiu %Accelerating Noisy Variational Quantum Algorithms with Physics-Informed Denoising Networks
   \bibitem{b_mohammadipour2025}\bibMohammadipour %Direct analysis of Zero-Noise extrapolation: polynomial methods, error bounds, and simultaneous Physical-Algorithmic error mitigation
+  \bibitem{b_tanaos_dataset}\bibTanaosDataset %Tanaos synthetic intent classifier dataset v1
 \end{thebibliography}
 
 \end{document}
