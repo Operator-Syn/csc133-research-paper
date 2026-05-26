@@ -9,9 +9,20 @@ ipykernel = "*"
 nbstripout = "*"
 pre-commit = "*"
 nbdime = "*"
-matplotlib = "*"
 nbconvert = {extras = ["webpdf"], version = "*"}
 playwright = "==1.56.0"
+pandas = "*"
+numpy = "*"
+scikit-learn = "*"
+matplotlib = "*"
+seaborn = "*"
+datasets = "*"
+nltk = "*"
+qiskit = "*"
+qiskit-machine-learning = "*"
+qiskit-algorithms = "*"
+pylatexenc = "*"
+qiskit-aer = "*"
 
 [dev-packages]
 
