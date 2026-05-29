@@ -47,32 +47,35 @@ with Zero-Noise Extrapolation for Intent Classification
 This study evaluates a simple \textbf{2-qubit Variational Quantum Classifier (VQC)}
 for binary intent classification under simulated Noisy Intermediate-Scale Quantum
 (NISQ) conditions. The experiment uses a focused subset of the
-\textbf{Tanaos synthetic intent classifier v1} dataset \cite{b_tanaos_dataset},
-limited to the \emph{Greeting} and \emph{Farewell} intent categories.
-The subset is balanced by sampling 500 utterances from each class, producing
-1{,}000 total samples for the experiment. Text utterances are represented using
-TF-IDF and reduced to two principal components through Principal Component
+\textbf{Tanaos synthetic intent classifier v1} dataset \cite{b_tanaos_dataset}.
+The classes are limited to the \emph{Greeting} and \emph{Farewell} intent groups.
+The subset is balanced by sampling 500 text patterns from each class, producing
+1{,}000 total samples for research purposes. Text utterances are represented using
+Term Frequency-Inverse Document Frequency (TF-IDF) 
+and reduced to two principal components through Principal Component
 Analysis (PCA), matching the two-qubit input size of the classifier.
 
-The VQC uses a ZZFeatureMap with one repetition for feature encoding and a
-RealAmplitudes ansatz with two repetitions, resulting in six trainable
-parameters. After clean training, the trained model is evaluated under simulated
-depolarizing noise. \textbf{Zero-Noise Extrapolation (ZNE)} is then applied as a
-post-processing error mitigation method. The evaluation uses depolarizing noise
-levels of 0\%, 1\%, 3\%, 5\%, 7\%, and 10\%, with measurement shot counts of
-100, 1{,}000, and 10{,}000. For each noise-shot configuration, 1{,}000
-seed-varied Monte Carlo trials are performed to estimate the mean accuracy and
-variance caused by finite-shot sampling and simulated depolarizing noise.
+The VQC has a ZZFeatureMap for feature encoding that uses a single repetition, and a
+RealAmplitudes ansatz with two repetitions. This resulted with a quantum circuit having six trainable
+parameters. After training, the model would be then evaluated under simulated
+depolarizing noise. For this particular research, \textbf{Zero-Noise Extrapolation (ZNE)} 
+is utilized as the primary error-mitigation method. 
 
-In the recorded experiment run, the clean statevector VQC achieved
-60.00\% accuracy on the held-out test set. Across nonzero-noise
-configurations, the zero-noise extrapolated accuracy estimate improved
-over the raw noisy estimate by an average of approximately 1.45
-percentage points, with the largest gain of 3.67 percentage points at
-0.07 depolarizing noise and 10{,}000 shots. However, the extrapolated
+The evaluation uses depolarizing noise
+levels of 0\%, 1\%, 3\%, 5\%, 7\%, and 10\%, with shot counts of
+100, 1{,}000, and 10{,}000. In each noise-shot pair configuration, a thousand (1{,}000)
+seed-varied from a specified seed-base (the seed base is 42 for this specific research) of Monte Carlo 
+trials would be performed to estimate the mean accuracy and
+the variance caused by finite-shot sampling and simulated depolarizing noise.
+
+In the recorded experiment, the clean statevector VQC achieved
+60.00\% accuracy on the test set. Across nonzero-noise configurations, the zero-noise extrapolated accuracy
+estimate improved over the raw noisy estimate by an average of
+approximately 1.45\%, with the largest gain of 3.67\%
+at 0.07 depolarizing noise and 10,000 shots. However, the extrapolated
 estimates also showed higher variance than the corresponding raw
 estimates, indicating that the method improved the mean estimate but did
-not stabilize trial-level output.
+not stabilize the outputs because it had more variability.
 }
 
 % -------------------------------------------------------
@@ -141,20 +144,6 @@ not stabilize trial-level output.
   \url{https://doi.org/10.48550/arxiv.2012.03755}%
 }
 
-\def\bibKrawchuk{%
-  C. Krawchuk, N. Khatri, N. J. Ortega, and D. Kartsaklis,
-  ``Efficient Generation of Parameterised Quantum Circuits from Large Texts,''
-  \textit{arXiv}, 2025.
-  \url{https://doi.org/10.48550/arxiv.2505.13208}%
-}
-
-\def\bibYeung{%
-  R. Yeung and D. Kartsaklis,
-  ``A CCG-Based Version of the DisCoCat Framework,''
-  \textit{arXiv (Cornell University)}, 2021.
-  \url{https://doi.org/10.48550/arxiv.2105.07720}%
-}
-
 \def\bibCoeckeSadrzadeh{%
   B. Coecke, M. Sadrzadeh, and S. Clark,
   ``Mathematical Foundations for a Compositional Distributional Model of Meaning,''
@@ -167,13 +156,6 @@ not stabilize trial-level output.
   ``Experimental Comparison of Ans\"{a}tze for Quantum Natural Language Processing,''
   Master's thesis, University of Oxford, 2022.
   \url{https://www.cs.ox.ac.uk/people/aleks.kissinger/theses/khatri-thesis.pdf}%
-}
-
-\def\bibToumi{%
-  A. Toumi and G. De Felice,
-  ``Higher-Order DisCoCat (Peirce-Lambek-Montague Semantics),''
-  \textit{Electronic Proceedings in Theoretical Computer Science}, vol. 429, pp. 130--145, 2025.
-  \url{https://doi.org/10.4204/eptcs.429.7}%
 }
 
 \def\bibLorenz{%
@@ -232,6 +214,13 @@ not stabilize trial-level output.
   \url{https://huggingface.co/datasets/tanaos/synthetic-intent-classifier-dataset-v1}.
 }
 
+\def\bibProjectRepo{%
+  John-Ronan S. Beira,
+  ``csc133-research-paper,''
+  GitHub repository, 2026.
+  \url{https://github.com/Operator-Syn/csc133-research-paper}.
+}
+
 % -------------------------------------------------------
 % Document
 % -------------------------------------------------------
@@ -257,35 +246,43 @@ not stabilize trial-level output.
 Recent studies have explored the use of variational quantum models for
 classification tasks, including applications related to Natural Language
 Processing (NLP). However, current Noisy Intermediate-Scale Quantum (NISQ)
-devices remain affected by decoherence, gate imperfections, crosstalk, and
-readout or measurement noise, which can make quantum model outputs unstable in
-practical settings \cite{b_njiki2026, b_koenig2024}.
+devices still remains affected by decoherence, gate imperfections, crosstalk, and
+readout or measurement noise, which can make quantum model outputs unstable for
+any practical usage \cite{b_njiki2026, b_koenig2024}.
 
-For small variational quantum classifiers, noise is especially important because
-the measured output depends on repeated circuit executions. Finite measurement
-shots can introduce sampling variation, while depolarizing noise can alter the
+Within NLP, Quantum Natural Language Processing (QNLP) has been studied as a
+way of connecting language representation with quantum models. This has been done 
+through compositional sentence representations and variational
+circuits \cite{b_phukan2025, b_guarasci2022, b_lorenz2023}. The present study
+does not implement a full compositional QNLP pipeline. Instead, it uses a
+smaller VQC-based text classification pipeline so that the effect of noise, shot
+count, and ZNE can be isolated under controlled simulation.
+
+Towards small variational quantum classifiers, noise is especially important because
+the measured output depends on repeated executions. Finite measurement
+shots can introduce sampling variation, and depolarizing noise can alter the
 observed bitstring distribution. These effects make it difficult to interpret a
 single noisy evaluation as a stable estimate of classifier performance. Because
-of this, repeated simulation trials are useful for measuring how much the
-classifier output varies under the same experimental configuration.
+of this, repeated simulations which is to be done via Monte Carlo framework are useful for measuring how much the
+classifier output varies under the experimental configuration.
 
-Error mitigation methods such as Zero-Noise Extrapolation (ZNE) are commonly
-used to estimate a circuit output closer to the zero-noise case by evaluating
+Zero-Noise Extrapolation (ZNE) is commonly
+used to estimate a circuit output closer to zero-noise case. This is done by evaluating
 the same circuit under increased noise levels and extrapolating the measured
 values back toward the zero-noise limit \cite{b_koenig2024, b_mohammadipour2025}. 
-In this study, ZNE is used only as a
+For this study, ZNE is used as the primary
 post-processing method for noisy evaluation. The VQC is trained once under a
 clean setting, and the trained parameters are reused during noisy and
 ZNE-based simulations.
 
-This study uses a Monte Carlo simulation framework to examine how simulated
-depolarizing noise, measurement shot count, and Zero-Noise Extrapolation (ZNE)
-affect the behavior of a fixed two-qubit Variational Quantum Classifier (VQC)
-for binary intent classification. The pipeline evaluates 1{,}000 seed-varied
+This study uses a Monte Carlo framework to examine how simulated
+depolarizing noise, measurement shot counts, and Zero-Noise Extrapolation (ZNE)
+affect the behavior of a fixed two-qubit Variational Quantum Classifier (VQC).
+The said VQC will specialize for binary intent classification. The pipeline evaluates 1{,}000 seed-varied
 Monte Carlo trials for each configuration of depolarizing noise at 0\%, 1\%,
-3\%, 5\%, 7\%, and 10\%, combined with measurement shot counts of 100,
+3\%, 5\%, 7\%, and 10\%, then paired with measurement shot counts of 100,
 1{,}000, and 10{,}000. This repeated evaluation is used to estimate the mean
-accuracy and variance introduced by finite-shot sampling and simulated
+accuracy and the variance introduced by finite-shot sampling and simulated
 depolarizing noise.
 
 % -------------------------------------------------------
@@ -294,134 +291,123 @@ depolarizing noise.
 \section{Related Literature}
 \label{sec:related_literature}
 
-\subsection{Quantum Models for NLP and Classification}
+\subsection{Quantum NLP and Compositional Background}
 
-Quantum Natural Language Processing (QNLP) studies how quantum circuits and quantum-inspired
-mathematical structures can be applied to language-related tasks. Much of the early motivation
-comes from compositional models of meaning, especially the Distributional Compositional
-Categorical (DisCoCat) framework, where grammar and vector-space meaning are treated within
-one formal structure \cite{b_coeckesadrzadeh2010, b_coecke2020, b_guarasci2022}. Later studies
-extended this direction toward quantum circuit implementations and small-scale NLP experiments
-on Noisy Intermediate-Scale Quantum (NISQ) hardware \cite{b_lorenz2023, b_phukan2025}.
+A major foundation for QNLP is the DisCoCat framework, which
+combines distributional word meanings with grammatical composition using
+category-theoretic structure \cite{b_coeckesadrzadeh2010}. Later works argued
+that this compositional structure has a natural connection to quantum
+computation and can be mapped into quantum algorithms or near-term quantum
+circuits \cite{b_zengcoecke2016, b_coecke2020}.Practical QNLP experiments
+have demonstrated small sentence classification tasks on NISQ hardware, while
+survey work highlights both the promise and the current limitations of quantum
+models for language specific tasks \cite{b_lorenz2023, b_guarasci2022, b_phukan2025}.
 
-This study is related to that broader QNLP direction, but it does not implement a full
-grammar-to-circuit DisCoCat pipeline. Instead, it treats intent classification as a small binary
-classification task. Text utterances are first represented using TF-IDF, reduced to two numerical
-features through PCA, and then evaluated using a two-qubit Variational Quantum Classifier (VQC).
-Because of this design, the work is closer to a controlled quantum machine learning classification
-experiment than to a full compositional language model.
-
-\subsection{DisCoCat and Quantum Circuit Motivation}
-
-The DisCoCat framework is useful as background because it explains why quantum methods are
-often discussed together with language structure. In DisCoCat, grammatical structure determines
-how word meanings are composed, and this composition can be represented using tensor-based or
-diagrammatic structures \cite{b_coeckesadrzadeh2010, b_zengcoecke2016}. Related work has also
-shown how these diagrammatic representations can be reformulated or extended through different
-grammar formalisms and higher-order models \cite{b_yeung2021, b_toumi2025}. More recent work
-has considered how larger text structures may be converted into parameterized quantum circuits,
-although such approaches require more complex parsing and circuit-generation pipelines than the
-one used in this paper \cite{b_krawchuk2025}.
-
-For the present experiment, these studies are used mainly to situate the work within QNLP and
-quantum machine learning. The implemented pipeline does not parse sentence grammar or assign
-quantum circuits to syntactic structures. The language component is limited to feature extraction
-from short text utterances before quantum classification.
+This study is related to QNLP mainly in terms of task motivation. It does not
+use grammatical reductions, DisCoCat diagrams, or direct sentence-to-circuit
+conversion. Instead, text datas are processed using classical feature
+extraction, reduced to two PCA components, and then passed into a small VQC for
+classification. This simpler setup was chosen so the experiment could focus more
+directly on noise sensitivity, finite-shot variation, and the effect of ZNE.
 
 \subsection{Small Variational Quantum Classifiers}
 
-Variational Quantum Classifiers use parameterized quantum circuits for supervised learning.
-They are usually built from three parts: a feature map that encodes classical data, an ansatz with
-trainable parameters, and a measurement rule that maps circuit outputs to class labels. Since
-near-term quantum models are limited by qubit count and circuit depth, dimensionality reduction
-is commonly needed when classical input data has more features than the available number of
-qubits.
+Variational Quantum Classifiers use parameterized quantum circuits for supervised
+learning. They are usually built from three parts: a feature map that encodes
+classical data, an ansatz with trainable parameters, and a measurement rule that
+maps circuit outputs to class labels \cite{b_seilkhan2026, b_higgs}. Since
+quantum models are limited by qubit count and circuit depth, dimensionality
+reduction is commonly needed when classical input data has more features than
+the available number of qubits \cite{b_higgs}.
 
 Related VQC studies show that PCA and other reduction methods are often used to map classical
 features into a smaller latent space before quantum encoding \cite{b_higgs}. Other benchmark
 studies on low-dimensional classification tasks show that two-qubit or shallow VQC models can
 be useful for controlled experiments, even when they do not yet show a clear advantage over
-classical models \cite{b_seilkhan2026}. In QNLP-oriented studies, ansatz choice is also important
-because the circuit structure affects trainability and classification behavior \cite{b_khatri2022}.
+classical models \cite{b_seilkhan2026}.
 These points support the design choice of using a two-dimensional PCA representation and a
 two-qubit VQC in this study.
 
+The choice of ansatz is also important in QNLP-style and VQC-style models.
+Different circuit mappings affect performance, trainability, and
+susceptibility to barren plateau behavior \cite{b_khatri2022}.
+
 \subsection{Noise, Trainability, and Measurement Variation}
 
-Noise remains a central limitation of near-term quantum models. In variational quantum
+Noise still remains a central limitation of quantum computers. In variational quantum
 algorithms, hardware noise and finite measurement shots can affect the measured output of the
-circuit, which can make a single evaluation unstable. Noise can also interact with trainability.
-Recent results suggest that noise effects are not uniformly harmful: in some quantum machine
-learning settings, moderate noise can behave like an implicit regularizer for under-optimized
-models, while better-converged models may degrade under the same noise conditions
+circuit. It can make a single evaluation unstable. Noise can also interact with trainability.
+Recent results from published papers suggest that effects of noise is not uniformly harmful: in some quantum machine
+learning settings, moderate noise can behave like an implicit regularizer. This is observed in under-optimized
+models, while better-converged models may degrade performance under the same noise conditions
 \cite{b_zhu2026}. At the same time, other work shows that noise can flatten variational cost
 landscapes and reduce trainability, especially in noise-induced barren plateau regimes
 \cite{b_wang2021}.
 
-Barren plateaus and noise-related trainability problems are also relevant to VQC research because
-they can make optimization difficult, especially as circuit width, circuit depth, or noise exposure
-increases \cite{b_lung2026, b_wang2021}. Other studies on hybrid quantum neural networks show that the
-effect of error mitigation depends on the noise model, the circuit, and the training or evaluation
+Related work on variational quantum classifiers has also explored noise-based
+optimization as a way to improve training behavior under barren plateau concerns
+\cite{b_lung2026}.
+
+Studies on hybrid quantum neural networks show that the
+effects of error mitigation depends on the noise model, the circuit, and the training or evaluation
 setting \cite{b_njiki2026}. These works motivate the need to evaluate not only the mean accuracy
-of a noisy VQC, but also the variance of its output under repeated simulation trials.
+of a noisy VQC, but also the variance of its output under repeated simulation trials 
+which is what the Monte Carlo framework would be used for.
 
 \subsection{Zero-Noise Extrapolation}
 
-Zero-Noise Extrapolation (ZNE) is an error mitigation method that estimates a zero-noise output
-by evaluating a circuit at increased noise levels and extrapolating the resulting measurements
+Zero-Noise Extrapolation (ZNE) is an error mitigation method. It estimates a zero-noise output
+by evaluating a circuit at an increased noise levels and then extrapolating the resulting measurements
 back toward the zero-noise limit. Several ZNE approaches have been proposed, including methods
 based on circuit folding, inverted circuits, layout permutations, and polynomial or regression-based
 extrapolation \cite{b_koenig2024, b_sayapin2025, b_mohammadipour2025}.
 
-This paper uses a simpler controlled simulation setting. Instead of comparing different ZNE
-protocols, the experiment scales a simulated depolarizing noise level using factors of 1, 3, and 5.
-A linear fit is then used to estimate the intercept at zero noise. This choice keeps the experiment
-focused on how ZNE changes the measured accuracy and variance of a fixed two-qubit VQC under
-repeated Monte Carlo trials.
+This paper uses a simpler ZNE setup. It does not compare several ZNE
+methods. Instead, it increases the simulated depolarizing noise level using scale
+factors of 1, 3, and 5. A linear fit is then used to estimate the accuracy at the
+zero-noise limit. This setup keeps the experiment focused on one question: How
+ZNE affects the measured accuracy and variance of a fixed two-qubit VQC across
+repeated Monte Carlo trials?
 
 \subsection{Synthesis and Research Gap}
 
-The reviewed literature shows three relevant directions. First, QNLP provides the broader
-motivation for testing quantum models on language-related tasks. Second, small VQC studies show
-how low-dimensional classical data can be encoded into shallow quantum classifiers. Third, work
-on noise and ZNE shows that error mitigation can improve estimates in some settings, but may also
-increase variance or behave differently across noise models.
-
-Based on this, the gap addressed in this paper is narrow and implementation-specific: there is
-limited evaluation of how simulated depolarizing noise, measurement shot count, and linear ZNE
+Building the grounds upon this, the gap the paper will address is narrow and implementation-specific: There is
+limited evaluation of how simulated depolarizing noise, measurement shot count, and linear ZNE levels
 affect the accuracy and variance of a fixed two-qubit VQC for binary intent classification. This
-study addresses that gap through a Monte Carlo simulation design using repeated seed-varied
-evaluations across multiple noise-shot configurations.
+study shall address that gap through Monte Carlo simulation design and seed-varied
+evaluations across noise-shot pair configurations.
 
 \section{Methodology}
 
-This study uses a controlled simulation-based methodology to evaluate how
-depolarizing noise, measurement shot count, and Zero-Noise Extrapolation (ZNE)
-affect the accuracy and variance of a two-qubit Variational Quantum Classifier
-(VQC). The workflow follows a fixed-model evaluation design. The VQC is first
-trained under a clean statevector setting. After training, the learned ansatz
-parameters are extracted and reused during noisy and ZNE-based simulations. The
-VQC is not retrained during noisy evaluation. This isolates the effects of
-simulator noise, measurement shots, and ZNE from variation caused by repeated
-model training.
+This methodology follows the implementation used in the Jupyter Notebook which will be in a form of a 
+public Github repository \cite{b_project_repo}. The classifier
+is trained once using a clean statevector setting.
+It will be then reused for all the noisy and
+ZNE evaluations. After training, the learned ansatz parameters are kept fixed.
+No retraining shall be performed during the Monte Carlo processes. With this setup,
+changes in measured accuracy come from the simulator seed, shot count,
+depolarizing noise level, and the ZNE steps rather than from repeated
+optimizer runs.
 
 \subsection{Dataset Preparation and Feature Extraction}
 
-The experiment uses the Tanaos synthetic intent classifier dataset
-\cite{b_tanaos_dataset}, a Hugging Face-hosted English text classification
-dataset with numeric intent labels from 0 to 11. This study restricts the task
-to two intent categories: Greeting and Farewell, corresponding to labels 0 and 1. The
-selected subset is balanced by sampling 500 utterances from each class, producing
+The experiment in the Jupyter Notebook uses the Tanaos synthetic intent classifier dataset
+\cite{b_tanaos_dataset}, a Hugging Face-hosted text classification
+dataset with numeric intent labels from 0 to 11. The primary language of this dataset is English. 
+This study restricts the task to two intent categories: Greeting and Farewell, their corresponding of labels 0 and 1. 
+The selected subset is balanced by sampling 500 patterns from each class. Together, the two classes produced
 1{,}000 total samples. The balanced dataset is divided into training and testing
-sets using an 80/20 stratified split, producing 800 training samples and 200
+sets using an 80/20 stratified split. This would then produce 800 training samples and 200
 testing samples.
 
 Text features are extracted using Term Frequency--Inverse Document Frequency
-(TF-IDF) with English stopword removal and a maximum vocabulary size of 500.
-Principal Component Analysis (PCA) is then applied to reduce the TF-IDF feature
-space to two components, matching the two-qubit input dimension of the VQC. The
-TF-IDF vectorizer and PCA transformation are fitted only on the training set and
-then applied to the test set to avoid information leakage.
+(TF-IDF) with English stopword removal. It will have a maximum vocabulary size of 500.
+Principal Component Analysis (PCA) would be then applied to reduce the TF-IDF feature
+space to two components. This matches the two-qubit input dimension of the VQC but it 
+also limits how much information from the original patterns can be
+used by the classifier. The TF-IDF vectorizer and PCA transformation are fitted
+only on the training set and then applied to the test set to avoid information
+leakage and keep the evaluation based on unseen test data.
 
 \begin{algorithm}[H]
 \caption{Dataset Preparation and Feature Extraction}
@@ -638,29 +624,26 @@ prediction pipeline.
 
 \subsection{Monte Carlo Evaluation Design}
 
-A base random seed of 42 is used for reproducibility. This seed controls dataset
+A base random seed of 42 is used for reproducibility in the Jupyter Notebook. This seed controls dataset
 sampling, the train-test split, and the initial Python and NumPy random states.
-For the Monte Carlo sweep, the simulator seed is not kept constant. For each
-trial, the seed is computed as
+For the Monte Carlo processes, the simulator seed would not be kept constant. 
+Each trial computes the seed as:
 
 \[
 s_t = s_0 + t,
 \]
 
-where $s_0=42$ and $t$ is the trial index. Thus, each noise-shot configuration
-is evaluated across 1{,}000 deterministic but distinct simulator seeds. The same
-seed sequence is reused across different noise-shot configurations, keeping
-comparisons reproducible and paired by trial index.
-
-Because there are six base noise levels, three shot counts, and 1{,}000 trials
-per configuration, the complete sweep contains
+where $s_0=42$ and $t$ is the trial index. This makes each noise-shot pair configuration
+is being evaluated across 1{,}000 deterministic but distinct simulator seeds. 
+Knowing that this research would have six (6) base noise levels, three (3) shot counts, and 1{,}000 trials
+per configuration, the complete sweep will become:
 
 \[
 6 \times 3 \times 1{,}000 = 18{,}000
 \]
 
-ZNE evaluation jobs. Each ZNE job evaluates three scaled noise levels, so the
-full sweep performs
+ZNE evaluation jobs. And since ZNE jobs evaluate on three scaled noise levels (these are 
+multiplicative noise levels 1, 3, and 5), the full process performs
 
 \[
 18{,}000 \times 3 = 54{,}000
@@ -719,13 +702,15 @@ post-processing steps.
 
 \subsection{Evaluation Metrics}
 
-The primary metric is classification accuracy on the held-out test set. For each
-noise-shot configuration, the 1{,}000 Monte Carlo trials are summarized using
+The primary metric to compare is classification accuracy on the test set. It
+will be exported to a timestamped csv files after the Monte Carlo Process.
+The purpose of timestamped CSVs is to prevent accidental overwriting of previous
+experiment. Each noise-shot configuration; the 1{,}000 Monte Carlo trials are summarized using
 mean raw accuracy, mean ZNE accuracy, raw accuracy variance, ZNE accuracy
 variance, raw standard deviation, ZNE standard deviation, mean ZNE delta, minimum
 ZNE accuracy, and maximum ZNE accuracy.
 
-The ZNE accuracy delta is defined as
+The ZNE accuracy delta is basically defined as
 
 \[
 \Delta_{\mathrm{ZNE}} = A_{\mathrm{ZNE}} - A_{\mathrm{raw}},
@@ -733,31 +718,32 @@ The ZNE accuracy delta is defined as
 
 where $A_{\mathrm{ZNE}}$ is the extrapolated ZNE accuracy and
 $A_{\mathrm{raw}}$ is the accuracy measured at the unscaled base noise level.
-The raw Monte Carlo outputs and grouped summary statistics are saved as
-timestamped CSV files to prevent accidental overwriting of previous experiment
-outputs.
 
 \section{Results}
 
-This section presents the clean baseline performance and the Monte Carlo
-Zero-Noise Extrapolation (ZNE) results produced by the two-qubit VQC experiment.
-The experiment evaluated six base depolarizing noise levels, three shot counts,
-and 1{,}000 Monte Carlo trials per noise-shot configuration, resulting in
-18{,}000 ZNE jobs. Each ZNE job evaluates the fixed VQC at three scaled noise
-levels, giving 54{,}000 scaled noisy evaluation calls.
+This section discusses the clean baseline result and the ZNE results from the
+two-qubit VQC experiment. To recap, the model was tested using six depolarizing noise
+levels and three shot counts. For every noise and shot-count pair, 1{,}000 Monte
+Carlo trials were run. This gives 18{,}000 ZNE jobs in total. Since each ZNE job
+uses three scaled noise levels, the whole experiment performs 54{,}000 scaled
+noisy evaluations.
 
 \subsection{Clean Baseline Performance}
 
-In the recorded experiment run, the clean statevector VQC obtained an accuracy
-of 60.00\% on the 200-sample held-out test set. The test set was balanced, with
-100 Greeting samples and 100 Farewell samples. The classifier correctly
-identified 41 Greeting samples and 79 Farewell samples. This indicates that the
-trained model was more sensitive to the Farewell class than the Greeting class
-in the clean baseline setting. Because the result depends on the sampled dataset
-split, optimizer behavior, and software execution environment, small differences
-may occur if the pipeline is rerun under different conditions. The reported
-value corresponds to the saved run used for the figures, tables, and CSV outputs
-in this paper.
+In the recorded experiment run, the clean statevector VQC reached 60.00\%
+accuracy on the 200-sample test set. This test set was not used during training,
+so it served as the unseen data for checking the model. It was also balanced,
+with 100 Greeting samples and 100 Farewell samples. From these, the classifier
+correctly predicted 41 Greeting samples and 79 Farewell samples. This shows that
+the model performed better on the Farewell class than on the Greeting class in
+the clean baseline test.
+
+The result may change slightly if the experiment would rerun. In testing upon repeated runs,
+the clean accuracy usually stayed around 60\% to 62\%. This variation is expected
+because the result can depend on the sampled train-test split, the optimizer
+behavior, and the software execution environment. The 60.00\% value reported here
+comes from the saved run used for the figures, tables, and CSV files in this
+paper.
 
 \begin{table}[H]
 \caption{Clean Baseline Confusion Matrix}
@@ -863,13 +849,14 @@ are reported in percent, while ZNE gain is reported in percentage points.
 \end{tabular}
 \end{table}
 
-Across all nonzero-noise configurations, the CSV results show a positive mean
-ZNE delta, although the gain at 0.01 noise with 10{,}000 shots is small enough
-to round to 0.00 percentage points in Table~\ref{tab:zne_summary_results}. The
-average ZNE gain over the 15 nonzero-noise configurations was approximately
-1.45 percentage points. The largest observed gain occurred at a base noise level
-of 0.07 with 10{,}000 shots, where mean accuracy increased from 62.72\% to
-66.39\%, corresponding to a 3.67 percentage-point improvement.
+Across all nonzero-noise configurations, the CSV results
+show a positive mean ZNE delta, although the gain at 0.01
+noise with 10,000 shots is small enough to round to 0.00\%
+in Table~\ref{tab:zne_summary_results}. The average ZNE gain over the
+15 nonzero-noise configurations was approximately 1.45\%. The largest
+observed gain occurred at a base noise level of 0.07 with 10,000 shots,
+where mean accuracy increased from 62.72\% to 66.39\%, corresponding
+to a 3.67\% gain.
 
 \begin{figure}[H]
 \centering
@@ -878,22 +865,23 @@ of 0.07 with 10{,}000 shots, where mean accuracy increased from 62.72\% to
 \label{fig:raw_vs_zne_mean_accuracy}
 \end{figure}
 
-The raw accuracy results were not strictly monotonic with respect to noise. For
-example, the 10{,}000-shot raw accuracy increased from 62.59\% at zero noise to
-63.48\% at 0.03 noise before decreasing at higher noise levels. This behavior
-suggests that the simulated noise did not act only as a simple degrading factor
-in this fixed-model evaluation. However, this should be interpreted cautiously,
-since the experiment uses a small two-qubit classifier, finite-shot majority
-decoding, and a reduced two-dimensional feature representation.
+The raw accuracy did not always decrease in a straight pattern as the
+depolarizing noise increased. For example, at 10{,}000 shots, the mean raw
+accuracy was 62.59\% with zero noise. It was observed to increase to 63.48\% at 0.03 noise,
+although it did decrease again at higher noise levels. This does not also mean that noise
+generally improves the classifier. In this experiment, these results should be read
+more carefully because it comes from a fixed two-qubit model, finite-shots
+and a two-component PCA representation of the text data.
 
 \subsection{Effect of Shot Count on Stability}
 
-Increasing the shot count reduced the Monte Carlo spread of the raw and ZNE
-accuracy estimates. Averaged across all noise levels, the raw standard deviation
-was approximately 2.85 percentage points at 100 shots, 2.11 percentage points at
-1{,}000 shots, and 1.02 percentage points at 10{,}000 shots. The same pattern
-appeared for ZNE, although ZNE remained more variable than the corresponding raw
-estimate.
+The shot count mostly affected how spread out the Monte Carlo results were. In this case,
+the average standard deviation across the noise levels was about 2.85\% at 100 shots, 
+2.11\% at 1{,}000 shots, and 1.02\% at 10{,}000 shots in raw accuracy. This
+shows that using more shot counts made the results stable. The same is also true for 
+ZNE results. However, in the nonzero-noise cases,
+their standard deviations were higher than the raw accuracy standard
+deviations.
 
 \begin{figure}[H]
 \centering
@@ -902,18 +890,21 @@ estimate.
 \label{fig:raw_vs_zne_variance}
 \end{figure}
 
-For every nonzero-noise configuration, the ZNE variance was higher than the raw
-accuracy variance. This is expected from the design of the experiment because the
-ZNE estimate is computed from multiple noisy evaluations at scaled noise levels.
-The extrapolated intercept can improve the mean estimate, but it can also
-amplify trial-level variation.
+The variance results also show one downside of using ZNE. In every nonzero-noise
+setting, the ZNE standard deviation was higher than the raw standard deviation.
+This happens because the ZNE value is not measured directly from one circuit run.
+Instead, it comes from the intercept of a fitted line using several noisy
+evaluations. In this experiment, ZNE increased the mean accuracy estimate, but it
+also made the trial-level results more spread out.
 
 \subsection{ZNE Accuracy Gain}
 
 Figure~\ref{fig:zne_accuracy_gain} shows the mean ZNE accuracy gain for each
-noise-shot configuration. The gain was small at 0.01 noise, became more visible
-at moderate noise levels, and remained positive at 0.10 noise. The strongest
-gain occurred at 0.07 noise with 10{,}000 shots.
+noise-shot configuration. The gain was smallest at 0.01 depolarizing noise and
+became larger at moderate noise levels. The largest gain in the saved run
+occurred at 0.07 noise with 10{,}000 shots, where mean raw accuracy was 62.72\%
+and mean ZNE accuracy was 66.39\%. At 0.10 noise, the gain was still positive,
+but it was lower than the peak observed at 0.07 noise.
 
 \begin{figure}[H]
 \centering
@@ -922,61 +913,69 @@ gain occurred at 0.07 noise with 10{,}000 shots.
 \label{fig:zne_accuracy_gain}
 \end{figure}
 
-These results indicate that ZNE improved the mean accuracy of the fixed trained
-VQC under simulated depolarizing noise, but the improvement came with increased
-variance. Therefore, the results support a limited conclusion: in this controlled
-two-qubit simulation, linear ZNE can improve average noisy evaluation accuracy,
-but it does not uniformly stabilize the classifier output. The method is better
-understood as an accuracy-bias correction technique rather than a general
-variance-reduction technique.
+Taken together, the results shows a trade-off. Linear ZNE gave higher mean
+accuracy estimates than direct noisy evaluation in the tested nonzero-noise
+configurations. It did not reduce trial-level variation. For this reason, the
+ZNE procedure used here is better described as an accuracy-level correction to
+mean estimate, not as a method for stabilizing individual noisy classifier
+runs.
 
 \subsection{Limitations}
 
-This experiment has several limitations. First, the classifier uses only two
-intent classes and a two-dimensional PCA representation, so the results do
-not directly generalize to larger intent-classification settings. This design is
-consistent with small VQC studies that reduce classical features before quantum
-encoding, but it remains a constrained low-dimensional setting rather than a
-large-scale intent classification model \cite{b_higgs, b_seilkhan2026}. Second,
-the VQC is evaluated only under a simulated depolarizing noise model. Real
-NISQ hardware can include additional error sources such as readout error,
-relaxation, dephasing, crosstalk, and device-specific gate variation, which may
-change the behavior of a quantum classifier and its mitigation results
-\cite{b_njiki2026, b_koenig2024}. Third, the ZNE procedure in this study is
-applied to aggregate classification accuracy rather than directly to expectation
-values or class probabilities. Standard ZNE methods are usually described in
-terms of extrapolating measured circuit outputs or observable expectation values
-toward the zero-noise limit \cite{b_koenig2024, b_mohammadipour2025}. Finally,
-the study does not claim quantum advantage over classical classifiers. Prior
-QNLP and VQC studies similarly note that near-term experiments are mainly
-proof-of-concept or controlled benchmark studies rather than demonstrations of
-practical quantum advantage \cite{b_lorenz2023, b_seilkhan2026}.
+Some parts of the implementation limit how much the results can be generalized.
+The task only used two intent classes. Each text sample is reduced to two
+PCA components before being encoded into the quantum circuit. This makes the data
+fit the nature of two-qubit VQC, but it also means that the original text-classification
+task becomes a much smaller, low-dimensional experiment \cite{b_higgs,
+b_seilkhan2026}.
 
+The noise model is also simplified. The noisy runs use simulated depolarizing
+noise, not a device-specific hardware model. Real NISQ processors can include
+readout error, relaxation, dephasing, crosstalk, and uneven gate fidelities.
+Those effects may change both the classifier output and the behavior of ZNE
+\cite{b_njiki2026, b_koenig2024}.
+
+The ZNE step is also limited. In standard ZNE, the extrapolation is usually done
+on measured circuit values, such as observable expectation values, before the
+final task metric is computed \cite{b_koenig2024, b_mohammadipour2025}. For this
+specific study, the extrapolation is done on the overall classification accuracy instead.
+Because of this, results should be understood as an accuracy-level ZNE-style
+estimate, not as a full observable-level ZNE pipeline.
+
+Finally, this paper does not and will never claim quantum advantage over classical classifiers.
+It only reports a controlled simulation of a small VQC under depolarizing noise,
+finite-shot samplings, and linear extrapolation. Larger intent sets, classical
+baselines using the same PCA features, other ansatz variants, and circuit-level
+ZNE should be tested before making broader claims
+\cite{b_lorenz2023, b_seilkhan2026, b_khatri2022}.
 
 \section{Conclusion}
 
-This study evaluated a fixed two-qubit Variational Quantum Classifier
-for binary intent classification under simulated depolarizing noise and
-finite-shot measurement conditions. The clean statevector model reached
-an accuracy of ~60.00\% on the held-out test set. Across the nonzero-noise
-configurations, the linear zero-noise extrapolated accuracy estimate was
-higher than the raw noisy accuracy by an average of approximately 1.45
-percentage points, with the largest gain of 3.67 percentage points
-observed at 0.07 depolarizing noise and 10,000 shots.
+This paper tested a fixed two-qubit Variational Quantum Classifier for binary
+intent classification. It used simulated depolarizing noise and different
+measurement shot counts. The classifier was trained once in a clean
+statevector setting. After training, the same learned parameters were used for
+all noisy evaluations and ZNE evaluations.
 
-The results suggest that linear noise extrapolation can improve the mean
-accuracy estimate of this fixed two-qubit classifier under the tested
-simulation conditions. However, the extrapolated estimates also showed
-higher variance than the corresponding raw noisy estimates. Therefore,
-the method should be interpreted as a bias-correction approach rather
-than a variance-reduction method.
+In the saved experiment run, the clean statevector classifier reached 60.00\%
+accuracy on the test set which were the unseen data, not to be mixed up with the trained data. 
+Across the fifteen nonzero-noise simulated configurations, 
+ZNE estimates were higher than their corresponding raw
+noisy estimates by an average of about 1.45\%. The largest gain
+was 3.67\% at 0.07 simulated depolarizing noise with 10{,}000 shot counts.
 
-The findings are limited to a small two-class dataset, a two-qubit VQC,
-a simulated depolarizing noise model, and accuracy-level extrapolation.
-Future work should evaluate larger intent sets, compare against classical
-baselines using the same PCA features, test additional quantum ansätze,
-and apply ZNE directly to circuit expectation values or class probabilities
-before computing classification accuracy.
+The results also show a limitation of the method. In every nonzero-noise setting,
+ZNE had a higher standard deviation than the raw accuracy estimate. This means
+that although ZNE improved the mean accuracy estimate, it did not make the
+individual trial results more stable. In this setup, ZNE is better understood as
+a correction to the average estimate, not as a method for reducing variance.
+
+The findings are limited by the subsets of two-class dataset, the two-qubit count circuit, the
+simulated depolarizing noise model, and the use of accuracy-level extrapolation. 
+Future work should test larger intent class sets, compare against
+classical baselines using the same PCA features, evaluating with use of other quantum ansatz
+variants, and apply ZNE to circuit-level quantities before computing final
+classification accuracy.
 
 \begin{thebibliography}{00}
   \bibitem{b_phukan2025}\bibPhukan %A survey of Quantum Natural Language Processing: From Compositional models to NISQ-Era Empiricism
@@ -986,11 +985,8 @@ before computing classification accuracy.
   \bibitem{b_seilkhan2026}\bibSeilkhan %Comparing Classical and Quantum Variational Classifiers on the XOR Problem
   \bibitem{b_zengcoecke2016}\bibZengCoecke %Quantum Algorithms for Compositional Natural Language Processing
   \bibitem{b_coecke2020}\bibCoecke %Foundations for Near-Term Quantum Natural Language Processing
-  \bibitem{b_krawchuk2025}\bibKrawchuk %Efficient Generation of Parameterised Quantum Circuits from Large Texts
-  \bibitem{b_yeung2021}\bibYeung %A CCG-Based Version of the DisCoCat Framework
   \bibitem{b_coeckesadrzadeh2010}\bibCoeckeSadrzadeh %Mathematical Foundations for a Compositional Distributional Model of Meaning
   \bibitem{b_khatri2022}\bibKhatri %Experimental Comparison of Ansätze for Quantum Natural Language Processing
-  \bibitem{b_toumi2025}\bibToumi %Higher-Order DisCoCat (Peirce-Lambek-Montague Semantics)
   \bibitem{b_lorenz2023}\bibLorenz %QNLP in Practice: Running Compositional Models of Meaning on a Quantum Computer
   \bibitem{b_guarasci2022}\bibGuarasci %Quantum Natural Language Processing: Challenges and Opportunities
   \bibitem{b_wang2021}\bibWang %Can Error Mitigation Improve Trainability of Noisy Variational Quantum Algorithms?
@@ -999,6 +995,7 @@ before computing classification accuracy.
   \bibitem{b_koenig2024}\bibKoenig %Inverted-circuit zero-noise extrapolation for quantum-gate error mitigation
   \bibitem{b_mohammadipour2025}\bibMohammadipour %Direct analysis of Zero-Noise extrapolation: polynomial methods, error bounds, and simultaneous Physical-Algorithmic error mitigation
   \bibitem{b_tanaos_dataset}\bibTanaosDataset %Tanaos synthetic intent classifier dataset v1
+  \bibitem{b_project_repo}\bibProjectRepo %Project repository containing notebook, code, CSV outputs, and paper files
 \end{thebibliography}
 
 \end{document}
