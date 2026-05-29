@@ -145,7 +145,7 @@ Because `.ipynb` files are JSON, standard Git tools often struggle with them. We
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-> **XQubit Project** — Jupyter Notebook research with clean version control and metadata management.
+<!-- > **XQubit Project** — Jupyter Notebook research with clean version control and metadata management. -->
 
 Copyright (C) 2026 **Operator-Syn**
 
