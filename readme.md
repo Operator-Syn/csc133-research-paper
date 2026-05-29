@@ -1,4 +1,4 @@
-# Monte Carlo Simulation of Noise-Resilient Variational Quantum Classifiers for Intent Classification
+# Monte Carlo Evaluation of a Two-Qubit Variational Quantum Classifier with Zero-Noise Extrapolation for Intent Classification
 
 This repository is optimized for **Jupyter Notebook** research with a focus on clean version control and metadata management. All collaborators **must** follow the setup instructions below to ensure repository integrity.
 
