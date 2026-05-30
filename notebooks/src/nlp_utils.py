@@ -19,7 +19,7 @@ def process_features(train_df, test_df, n_components=None, max_features=None):
     n_components = CONFIG.pca_components if n_components is None else n_components
     max_features = CONFIG.tfidf_max_features if max_features is None else max_features
 
-    print(f"🛠️ Vectorizing text and reducing to {n_components} components...")
+    print(f"Vectorizing text and reducing to {n_components} components...")
 
     # 1. Initialize TF-IDF with English stopword removal
     # We limit the feature count to maintain a manageable dense matrix
@@ -39,7 +39,7 @@ def process_features(train_df, test_df, n_components=None, max_features=None):
 
     pca_variance = float(sum(pca.explained_variance_ratio_))
 
-    print(f"✅ Feature Engineering Complete.")
+    print(f" Feature Engineering Complete.")
     print(f"PCA Variance Explained: {pca_variance * 100:.2f}%")
 
     return X_train_pca, X_test_pca, vectorizer, pca, pca_variance
