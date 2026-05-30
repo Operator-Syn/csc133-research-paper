@@ -22,14 +22,10 @@ def parity(bitstring_as_int: int) -> int:
 
 def build_vqc():
     """
-    Build the clean baseline Variational Quantum Classifier.
-
-    This model uses StatevectorSampler, so it does not include depolarizing
-    noise, finite-shot sampling, or error mitigation. The trained parameters
-    from this clean model are reused later for fixed-model noisy evaluation.
-
-    The VQC uses an explicit parity interpretation so that its class mapping
-    matches the manual noisy/ZNE evaluator.
+    This model uses StatevectorSampler, so it does not include the Aer
+    depolarizing-noise model, ZNE, or the noisy-evaluation shot-count sweep.
+    The trained parameters from this clean model are reused later for fixed-model
+    noisy evaluation.
     """
 
     feature_map = ZZFeatureMap(
